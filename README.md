@@ -3,3 +3,5 @@ Web based optimizer for the game NGU INDUSTRIES
 
 Rendered using my own GUI library with [REGL](https://github.com/regl-project/regl) for webgl renderer
 ~~although this project currently only uses the canvas2D renderer~~
+
+You can play around with it on [Github.io](https://plasma119.github.io/NGU-INDUSTRIES-optimizer/) now!
