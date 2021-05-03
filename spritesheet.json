@@ -1,0 +1,276 @@
+{"frames": [
+
+{
+	"filename": "ABC.png",
+	"frame": {"x":114,"y":572,"w":114,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":111},
+	"sourceSize": {"w":114,"h":111}
+},
+{
+	"filename": "ABP.png",
+	"frame": {"x":320,"y":461,"w":115,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":115,"h":111},
+	"sourceSize": {"w":115,"h":111}
+},
+{
+	"filename": "ABS.png",
+	"frame": {"x":0,"y":572,"w":114,"h":111},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":111},
+	"sourceSize": {"w":114,"h":111}
+},
+{
+	"filename": "BBC.png",
+	"frame": {"x":0,"y":0,"w":69,"h":69},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":69},
+	"sourceSize": {"w":69,"h":69}
+},
+{
+	"filename": "BBP.png",
+	"frame": {"x":138,"y":0,"w":69,"h":69},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":69},
+	"sourceSize": {"w":69,"h":69}
+},
+{
+	"filename": "BBS.png",
+	"frame": {"x":69,"y":0,"w":69,"h":69},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":69},
+	"sourceSize": {"w":69,"h":69}
+},
+{
+	"filename": "cardboard.png",
+	"frame": {"x":300,"y":0,"w":109,"h":78},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":109,"h":78},
+	"sourceSize": {"w":109,"h":78}
+},
+{
+	"filename": "cardboard_ore.png",
+	"frame": {"x":0,"y":78,"w":105,"h":81},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":81},
+	"sourceSize": {"w":105,"h":81}
+},
+{
+	"filename": "copper_bar.png",
+	"frame": {"x":0,"y":353,"w":111,"h":97},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":97},
+	"sourceSize": {"w":111,"h":97}
+},
+{
+	"filename": "copper_ore.png",
+	"frame": {"x":187,"y":78,"w":96,"h":82},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":82},
+	"sourceSize": {"w":96,"h":82}
+},
+{
+	"filename": "crappt_copper_wires.png",
+	"frame": {"x":0,"y":461,"w":99,"h":109},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":109},
+	"sourceSize": {"w":99,"h":109}
+},
+{
+	"filename": "crappy_computer_chips.png",
+	"frame": {"x":398,"y":353,"w":105,"h":108},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":108},
+	"sourceSize": {"w":105,"h":108}
+},
+{
+	"filename": "crappy_hard_drive.png",
+	"frame": {"x":105,"y":164,"w":108,"h":92},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":108,"h":92},
+	"sourceSize": {"w":108,"h":92}
+},
+{
+	"filename": "crappy_iron_cog.png",
+	"frame": {"x":291,"y":353,"w":107,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":107},
+	"sourceSize": {"w":107,"h":107}
+},
+{
+	"filename": "crappy_reactor.png",
+	"frame": {"x":206,"y":461,"w":114,"h":109},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":109},
+	"sourceSize": {"w":114,"h":109}
+},
+{
+	"filename": "crappy_staples.png",
+	"frame": {"x":386,"y":78,"w":101,"h":86},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":86},
+	"sourceSize": {"w":101,"h":86}
+},
+{
+	"filename": "crappy_wheel.png",
+	"frame": {"x":105,"y":78,"w":82,"h":82},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":82},
+	"sourceSize": {"w":82,"h":82}
+},
+{
+	"filename": "glue.png",
+	"frame": {"x":99,"y":461,"w":107,"h":109},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":109},
+	"sourceSize": {"w":107,"h":109}
+},
+{
+	"filename": "glue_ore.png",
+	"frame": {"x":195,"y":353,"w":96,"h":103},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":103},
+	"sourceSize": {"w":96,"h":103}
+},
+{
+	"filename": "iron_bar.png",
+	"frame": {"x":304,"y":256,"w":111,"h":97},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":97},
+	"sourceSize": {"w":111,"h":97}
+},
+{
+	"filename": "iron_ore.png",
+	"frame": {"x":207,"y":0,"w":93,"h":74},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":74},
+	"sourceSize": {"w":93,"h":74}
+},
+{
+	"filename": "KBC.png",
+	"frame": {"x":410,"y":572,"w":91,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":114},
+	"sourceSize": {"w":91,"h":114}
+},
+{
+	"filename": "KBP.png",
+	"frame": {"x":228,"y":572,"w":91,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":114},
+	"sourceSize": {"w":91,"h":114}
+},
+{
+	"filename": "KBS.png",
+	"frame": {"x":319,"y":572,"w":91,"h":114},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":114},
+	"sourceSize": {"w":91,"h":114}
+},
+{
+	"filename": "metal_frame.png",
+	"frame": {"x":90,"y":256,"w":107,"h":94},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":94},
+	"sourceSize": {"w":107,"h":94}
+},
+{
+	"filename": "shitty_robo_brain.png",
+	"frame": {"x":111,"y":353,"w":84,"h":101},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":101},
+	"sourceSize": {"w":84,"h":101}
+},
+{
+	"filename": "steel_bar.png",
+	"frame": {"x":0,"y":164,"w":105,"h":90},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":90},
+	"sourceSize": {"w":105,"h":90}
+},
+{
+	"filename": "steel_ore.png",
+	"frame": {"x":283,"y":78,"w":103,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":103,"h":83},
+	"sourceSize": {"w":103,"h":83}
+},
+{
+	"filename": "steel_wool.png",
+	"frame": {"x":197,"y":256,"w":107,"h":94},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":94},
+	"sourceSize": {"w":107,"h":94}
+},
+{
+	"filename": "think_juice_T1.png",
+	"frame": {"x":393,"y":164,"w":90,"h":92},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
+	"sourceSize": {"w":90,"h":92}
+},
+{
+	"filename": "think_juice_T2.png",
+	"frame": {"x":303,"y":164,"w":90,"h":92},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
+	"sourceSize": {"w":90,"h":92}
+},
+{
+	"filename": "think_juice_T3.png",
+	"frame": {"x":213,"y":164,"w":90,"h":92},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
+	"sourceSize": {"w":90,"h":92}
+},
+{
+	"filename": "think_juice_T4.png",
+	"frame": {"x":0,"y":256,"w":90,"h":92},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
+	"sourceSize": {"w":90,"h":92}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "spritesheet.png",
+	"format": "RGBA8888",
+	"size": {"w":503,"h":686},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a6ea6e82cfa11a90384a4471a76d4147:c503039a4ff1fa6202444d7f2cc960de:729adc6043343cfda41c447ce8f464d6$"
+}
+}

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            NGU Industries Simulator
+        </title>
+        <link rel="stylesheet" href="engine.css"></link>
+    </head>
+    <body onload=ini()>
+        <script src="regl.js"></script>
+        <script src="common.js"></script>
+        <script src="RAPI.js"></script>
+        <script src="GUI.js"></script>
+        <script src="WGUI2.js"></script>
+        <script src="NGU_industries.js"></script>
+        <script>
+            function main() {
+                engine.update();
+                engine.render();
+	            window.requestAnimationFrame(main);
+            }
+
+            function ini() {
+                box = document.getElementById("box");
+                engine = new RAPI(box, screen.x, screen.y);
+                gui_main = engine.addLayer();
+                gui_top = engine.addLayer();
+
+                var fpsc = new GUI_counter({ text: "FPS:", interval: 1000 });
+                fpsc.move(screen.x - 50, screen.y - 25);
+                gui_main.FPS_counter = fpsc;
+                fpsc.deploy(gui_top);
+
+                var upsc = new GUI_counter({ text: "UPS:", interval: 1000 });
+                upsc.move(screen.x - 50, screen.y - 50);
+                gui_main.UPS_counter = upsc;
+                upsc.deploy(gui_top);
+
+                // NGU.layout.map((arr)=>{return arr.map((b)=>b?1:0).join(',')}).join('],[')
+                maps = [
+                    [
+                        [0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,1,0,1,1,0,0,0,1,1,1,1,1,0],[0,0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,0],[0,0,0,1,1,1,1,0,1,1,0,0,0,1,0,1,0,1,1,0],[0,0,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],[0,0,0,1,1,1,1,1,1,1,1,0,1,0,0,1,0,0,0,0],[0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0],[0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0],[0,0,0,0,0,0,1,1,0,1,1,1,1,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0],[0,0,1,0,0,0,0,1,1,1,0,0,0,1,1,1,1,1,1,0],[0,0,1,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                    ],
+                    [
+                        [0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,1],[1,1,1,1,0,1,1,1,1,1,0,0,0,0,0,1,1,1,0,0],[1,1,1,1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,1,0],[1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,0],[1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],[1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1],[1,1,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,0],[0,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,0],[1,1,1,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1,0,0],[1,1,1,0,1,0,1,0,0,0,0,0,0,1,1,1,1,0,0,0],[1,1,1,0,1,0,1,0,0,0,0,0,0,1,1,1,1,1,1,0],[1,1,1,0,1,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0],[1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+                    ],
+                    [
+                        [1,0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1],[0,0,1,1,1,0,1,1,1,1,1,0,1,1,1,0,0,1,1,0],[1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,0,1,1,1],[1,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1],[1,1,1,0,0,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,0,1,0,1,1,0,1,1,1,1,0,1,1],[1,1,1,0,1,1,0,0,0,1,1,1,1,1,1,1,0,1,1,1],[0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1],[1,1,1,1,1,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,0,1,1,0,0,1,1,1,1,1,1,0,0,1,1,1],[1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,0,0,0,1,1],[0,0,0,0,0,0,1,1,1,0,1,1,1,1,1,0,0,0,0,1],[1,1,0,1,1,0,0,1,0,0,0,1,1,0,0,0,0,0,1,1],[1,1,0,1,1,0,1,1,1,0,1,1,1,1,1,0,1,1,1,0],[0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,1,1,1,0,1],[1,1,0,1,1,0,1,1,1,1,0,0,1,0,1,1,1,0,1,1],[1,1,0,1,1,0,0,0,1,1,1,0,1,1,1,1,0,1,1,1]
+                    ]
+                ];
+
+                let frame = new GUI_object_NGU_industries({NGU: NGU});
+                gui_main.addObject(frame);
+                NGU.GUI_frame = frame;
+                NGU.initLayout(maps[0]);
+
+                let b = new GUI_button({size:[120, 50], imgData:{text:"optimize"}, onclick: () => {
+                    NGU.optimizeList = [new NGU_industries_object_Lab()];
+                    let type = [];
+                    if (optimizeTarget.box) type.push('box');
+                    if (optimizeTarget.knight) type.push('knight');
+                    if (optimizeTarget.arrow) type.push('arrow');
+                    type.forEach(t => {
+                        if (t == 'arrow') {
+                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'w'));
+                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'a'));
+                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 's'));
+                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'd'));
+                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'w'));
+                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'a'));
+                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 's'));
+                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'd'));
+                        } else {
+                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed'));
+                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production'));
+                        }
+                    })
+                    NGU.optimize((yield)=>{
+                        b.drawObject.text = "optimizing: " + Math.round(yield);
+                    }).then((yield) => {
+                        b.drawObject.text = "optimized: " + Math.round(yield);
+                    });
+                }});
+                b.move(0, screen.y - 50);
+                gui_top.addObject(b);
+
+                let b8 = new GUI_button({size:[120, 50], imgData:{text:"strategy: sum"}, onclick: () => {
+                    if (strategy == 'sum') {
+                        strategy = 'max';
+                        NGU.getYield = NGU.yieldStrategyMax;
+                        b8.drawObject.text = 'strategy: max';
+                    } else {
+                        strategy = 'sum';
+                        NGU.getYield = NGU.yieldStrategySum;
+                        b8.drawObject.text = 'strategy: sum';
+                    }
+                }});
+                b8.move(120, screen.y - 50);
+                gui_top.addObject(b8);
+
+                let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
+                    currentMap++;
+                    if (currentMap >= maps.length) currentMap = 0; 
+                    NGU.initLayout(maps[currentMap]);
+                }});
+                b2.move(0, screen.y - 100);
+                gui_top.addObject(b2);
+
+                let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
+                    optimizeTarget.speed = !optimizeTarget.speed;
+                    b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
+                    b6.drawObject.fillColor = optimizeTarget.speed? '#008800': '#880000';
+                }});
+                b6.move(0, screen.y - 150);
+                gui_top.addObject(b6);
+
+                let b7 = new GUI_button({imgData:{text:"production"}, onclick: () => {
+                    optimizeTarget.production = !optimizeTarget.production;
+                    b7.drawObject.color = optimizeTarget.production? '#00ff00': '#ff0000';
+                    b7.drawObject.fillColor = optimizeTarget.production? '#008800': '#880000';
+                }});
+                b7.move(100, screen.y - 150);
+                gui_top.addObject(b7);
+
+                let b3 = new GUI_button({imgData:{text:"box"}, onclick: () => {
+                    optimizeTarget.box = !optimizeTarget.box;
+                    b3.drawObject.color = optimizeTarget.box? '#00ff00': '#ff0000';
+                    b3.drawObject.fillColor = optimizeTarget.box? '#008800': '#880000';
+                }});
+                b3.move(200, screen.y - 150);
+                gui_top.addObject(b3);
+
+                let b4 = new GUI_button({imgData:{text:"knight"}, onclick: () => {
+                    optimizeTarget.knight = !optimizeTarget.knight;
+                    b4.drawObject.color = optimizeTarget.knight? '#00ff00': '#ff0000';
+                    b4.drawObject.fillColor = optimizeTarget.knight? '#008800': '#880000';
+                }});
+                b4.move(300, screen.y - 150);
+                gui_top.addObject(b4);
+
+                let b5 = new GUI_button({imgData:{text:"arrow"}, onclick: () => {
+                    optimizeTarget.arrow = !optimizeTarget.arrow;
+                    b5.drawObject.color = optimizeTarget.arrow? '#00ff00': '#ff0000';
+                    b5.drawObject.fillColor = optimizeTarget.arrow? '#008800': '#880000';
+                }});
+                b5.move(400, screen.y - 150);
+                gui_top.addObject(b5);
+
+                button = new GUI_button({size:[screen.x, screen.y], onclick: (mz) => {
+                    x = Math.floor(mz[0] / 50);
+                    y = Math.floor(mz[1] / 50);
+                    if (NGU.isValidPosition(x, y)) {
+                        NGU.setLayout(x, y, !NGU.layout[y][x]);
+                    }
+                }});
+                button.hide();
+                gui_main.addObject(button);
+
+                // load images and start the simulation
+                // don't ask me how this stuff works, it been years since I coded this thing
+                fetchJSON("data.json")
+                .then(json=>{
+                    engine.imageManager.loadArray(json["spriteSheet"])
+                    .then(()=>fetchJSON(json["spriteSheet"][0][2]))
+                    .then((spritejson)=>{
+                        // hijack the normal loading and link image and sprite directly to filename
+                        let img_arr = [];
+                        let sprite_arr = [];
+                        spritejson["frames"].forEach(f => {
+                            const tokens = f.filename.split(".");
+                            tokens.pop();
+                            const name = tokens.join(".");
+                            img_arr.push([name, f.filename]);
+                            sprite_arr.push([name, name, {}]);
+                        });
+                        engine.imageManager.loadArray(img_arr)
+                        .then(()=>engine.spriteManager.loadArray(sprite_arr))
+                        .then(()=>window.requestAnimationFrame(main));
+                    })
+                   
+                });
+            }
+            
+            var box, engine, gui_main, gui_top;
+            var screen = { x: 1000, y: 1000 };
+
+            var NGU = new NGU_industries();
+            var maps, currentMap = 0;
+            var optimizeTarget = {
+                box: true,
+                knight: true,
+                arrow: true,
+                speed: true,
+                production: true
+            };
+            var strategy = 'sum';
+
+        </script>
+        <div id="box"></div>
+    </body>
+</html>
