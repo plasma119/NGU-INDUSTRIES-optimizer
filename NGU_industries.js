@@ -459,6 +459,28 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                 }
             break;
 
+            case 'wall':
+                this.name = 'WB';
+                switch (direction) {
+                    case 'w':
+                    case 's':
+                        this.maskX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        this.maskY = [-1, -2, -3, -4, -5, -6, 1, 2, 3, 4, 5, 6];
+                    break;
+                    case 'a':
+                    case 'd':
+                        this.maskX = [-1, -2, -3, -4, -5, -6, 1, 2, 3, 4, 5, 6];
+                        this.maskY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    break;
+                }
+            break;
+
+            case 'donut':
+                this.name = 'DB';
+                this.maskX = [-2, -1, 0, 1, 2, 2, 2, 2, 2, 1, 0, -1, -2, -2, -2, -2];
+                this.maskY = [2, 2, 2, 2, 2, 1, 0, -1, -2, -2, -2, -2, -2, -1, 0, 1];
+            break;
+
             default:
                 shape = 'box';
             case 'box':
@@ -473,6 +495,8 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                 switch (shape) {
                     case 'box': effect = 0.3; break;
                     case 'knight': effect = 0.35; break;
+                    case 'wall': effect = 0.27; break;
+                    case 'donut': effect = 0.26; break;
                     case 'arrow': effect = 0.22; break;
                 }
                 this.productionEffect = effect;
@@ -483,6 +507,8 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                 switch (shape) {
                     case 'box': effect = 0.15; break;
                     case 'knight': effect = 0.13; break;
+                    case 'wall': effect = 0.09; break;
+                    case 'donut': effect = 0.08; break;
                     case 'arrow': effect = 0.07; break;
                 }
                 this.costEffect = effect;
@@ -495,6 +521,8 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                 switch (shape) {
                     case 'box': effect = 0.4; break;
                     case 'knight': effect = 0.35; break;
+                    case 'wall': effect = 0.27; break;
+                    case 'donut': effect = 0.23; break;
                     case 'arrow': effect = 0.26; break;
                 }
                 this.speedEffect = effect;
