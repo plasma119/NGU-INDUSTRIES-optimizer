@@ -26,7 +26,7 @@
 },
 {
 	"filename": "BBC.png",
-	"frame": {"x":1,"y":677,"w":69,"h":69},
+	"frame": {"x":434,"y":201,"w":69,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":69},
@@ -34,7 +34,7 @@
 },
 {
 	"filename": "BBP.png",
-	"frame": {"x":72,"y":677,"w":69,"h":69},
+	"frame": {"x":434,"y":272,"w":69,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":69},
@@ -42,7 +42,7 @@
 },
 {
 	"filename": "BBS.png",
-	"frame": {"x":143,"y":677,"w":69,"h":69},
+	"frame": {"x":434,"y":343,"w":69,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":69},
@@ -50,15 +50,15 @@
 },
 {
 	"filename": "cardboard.png",
-	"frame": {"x":226,"y":114,"w":109,"h":78},
-	"rotated": true,
+	"frame": {"x":108,"y":416,"w":109,"h":78},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":109,"h":78},
 	"sourceSize": {"w":109,"h":78}
 },
 {
 	"filename": "cardboard_ore.png",
-	"frame": {"x":302,"y":515,"w":105,"h":81},
+	"frame": {"x":219,"y":419,"w":105,"h":81},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":81},
@@ -66,15 +66,15 @@
 },
 {
 	"filename": "copper_bar.png",
-	"frame": {"x":117,"y":225,"w":111,"h":97},
-	"rotated": true,
+	"frame": {"x":321,"y":213,"w":111,"h":97},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":97},
 	"sourceSize": {"w":111,"h":97}
 },
 {
 	"filename": "copper_ore.png",
-	"frame": {"x":204,"y":446,"w":96,"h":82},
+	"frame": {"x":222,"y":335,"w":96,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":82},
@@ -82,8 +82,8 @@
 },
 {
 	"filename": "crappt_copper_wires.png",
-	"frame": {"x":343,"y":1,"w":99,"h":109},
-	"rotated": true,
+	"frame": {"x":1,"y":554,"w":99,"h":109},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":109},
 	"sourceSize": {"w":99,"h":109}
@@ -98,8 +98,8 @@
 },
 {
 	"filename": "crappy_hard_drive.png",
-	"frame": {"x":306,"y":110,"w":108,"h":92},
-	"rotated": true,
+	"frame": {"x":107,"y":496,"w":108,"h":92},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":108,"h":92},
 	"sourceSize": {"w":108,"h":92}
@@ -122,15 +122,15 @@
 },
 {
 	"filename": "crappy_staples.png",
-	"frame": {"x":309,"y":220,"w":101,"h":86},
-	"rotated": true,
+	"frame": {"x":187,"y":598,"w":101,"h":86},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":86},
 	"sourceSize": {"w":101,"h":86}
 },
 {
 	"filename": "crappy_wheel.png",
-	"frame": {"x":100,"y":448,"w":82,"h":82},
+	"frame": {"x":374,"y":693,"w":82,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":82},
@@ -138,7 +138,7 @@
 },
 {
 	"filename": "DBC.png",
-	"frame": {"x":214,"y":671,"w":52,"h":53},
+	"frame": {"x":449,"y":1,"w":52,"h":53},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":53},
@@ -146,16 +146,16 @@
 },
 {
 	"filename": "DBP.png",
-	"frame": {"x":268,"y":690,"w":52,"h":53},
-	"rotated": true,
+	"frame": {"x":433,"y":414,"w":52,"h":53},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":53},
 	"sourceSize": {"w":52,"h":53}
 },
 {
 	"filename": "DBS.png",
-	"frame": {"x":323,"y":690,"w":52,"h":53},
-	"rotated": true,
+	"frame": {"x":102,"y":590,"w":52,"h":53},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":53},
 	"sourceSize": {"w":52,"h":53}
@@ -170,7 +170,7 @@
 },
 {
 	"filename": "glue_ore.png",
-	"frame": {"x":204,"y":341,"w":96,"h":103},
+	"frame": {"x":223,"y":230,"w":96,"h":103},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":96,"h":103},
@@ -178,15 +178,15 @@
 },
 {
 	"filename": "iron_bar.png",
-	"frame": {"x":1,"y":448,"w":111,"h":97},
-	"rotated": true,
+	"frame": {"x":321,"y":312,"w":111,"h":97},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":111,"h":97},
 	"sourceSize": {"w":111,"h":97}
 },
 {
 	"filename": "iron_ore.png",
-	"frame": {"x":302,"y":341,"w":93,"h":74},
+	"frame": {"x":279,"y":693,"w":93,"h":74},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":93,"h":74},
@@ -194,7 +194,7 @@
 },
 {
 	"filename": "KBC.png",
-	"frame": {"x":1,"y":561,"w":91,"h":114},
+	"frame": {"x":1,"y":665,"w":91,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":114},
@@ -202,7 +202,7 @@
 },
 {
 	"filename": "KBP.png",
-	"frame": {"x":94,"y":561,"w":91,"h":114},
+	"frame": {"x":94,"y":665,"w":91,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":114},
@@ -210,7 +210,7 @@
 },
 {
 	"filename": "KBS.png",
-	"frame": {"x":216,"y":225,"w":91,"h":114},
+	"frame": {"x":226,"y":114,"w":91,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":114},
@@ -218,15 +218,15 @@
 },
 {
 	"filename": "metal_frame.png",
-	"frame": {"x":108,"y":338,"w":107,"h":94},
-	"rotated": true,
+	"frame": {"x":217,"y":502,"w":107,"h":94},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":94},
 	"sourceSize": {"w":107,"h":94}
 },
 {
 	"filename": "shitty_robo_brain.png",
-	"frame": {"x":408,"y":395,"w":84,"h":101},
+	"frame": {"x":319,"y":110,"w":84,"h":101},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":101},
@@ -234,7 +234,7 @@
 },
 {
 	"filename": "steel_bar.png",
-	"frame": {"x":187,"y":530,"w":105,"h":90},
+	"frame": {"x":326,"y":411,"w":105,"h":90},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":90},
@@ -242,83 +242,83 @@
 },
 {
 	"filename": "steel_ore.png",
-	"frame": {"x":409,"y":498,"w":103,"h":83},
-	"rotated": true,
+	"frame": {"x":117,"y":331,"w":103,"h":83},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":103,"h":83},
 	"sourceSize": {"w":103,"h":83}
 },
 {
 	"filename": "steel_wool.png",
-	"frame": {"x":397,"y":286,"w":107,"h":94},
-	"rotated": true,
+	"frame": {"x":326,"y":503,"w":107,"h":94},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":94},
 	"sourceSize": {"w":107,"h":94}
 },
 {
 	"filename": "think_juice_T1.png",
-	"frame": {"x":400,"y":102,"w":90,"h":92},
-	"rotated": true,
+	"frame": {"x":405,"y":107,"w":90,"h":92},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
 	"sourceSize": {"w":90,"h":92}
 },
 {
 	"filename": "think_juice_T2.png",
-	"frame": {"x":400,"y":194,"w":90,"h":92},
-	"rotated": true,
+	"frame": {"x":187,"y":686,"w":90,"h":92},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
 	"sourceSize": {"w":90,"h":92}
 },
 {
 	"filename": "think_juice_T3.png",
-	"frame": {"x":294,"y":598,"w":90,"h":92},
-	"rotated": true,
+	"frame": {"x":290,"y":599,"w":90,"h":92},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
 	"sourceSize": {"w":90,"h":92}
 },
 {
 	"filename": "think_juice_T4.png",
-	"frame": {"x":388,"y":603,"w":90,"h":92},
-	"rotated": true,
+	"frame": {"x":382,"y":599,"w":90,"h":92},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
 	"sourceSize": {"w":90,"h":92}
 },
 {
 	"filename": "WBC.png",
-	"frame": {"x":302,"y":417,"w":104,"h":47},
+	"frame": {"x":117,"y":225,"w":104,"h":104},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":47},
-	"sourceSize": {"w":104,"h":47}
+	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":104},
+	"sourceSize": {"w":104,"h":104}
 },
 {
 	"filename": "WBP.png",
-	"frame": {"x":302,"y":466,"w":104,"h":47},
+	"frame": {"x":343,"y":1,"w":104,"h":104},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":47},
-	"sourceSize": {"w":104,"h":47}
+	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":104},
+	"sourceSize": {"w":104,"h":104}
 },
 {
 	"filename": "WBS.png",
-	"frame": {"x":187,"y":622,"w":104,"h":47},
+	"frame": {"x":1,"y":448,"w":104,"h":104},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":47},
-	"sourceSize": {"w":104,"h":47}
+	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":104},
+	"sourceSize": {"w":104,"h":104}
 }],
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "spritesheet.png",
 	"format": "RGBA8888",
-	"size": {"w":493,"h":747},
+	"size": {"w":504,"h":780},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:cbe2169695ac57d843ff3c6fde090dff:623e412fe6e2ab2015f32a9db2aaccaf:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2ff4f2d110981a1f8bca10f36aa32e27:30bced59a48e0c0490b2d9ef16c438c9:729adc6043343cfda41c447ce8f464d6$"
 }
 }

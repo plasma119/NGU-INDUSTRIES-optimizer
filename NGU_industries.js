@@ -464,13 +464,13 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                 switch (direction) {
                     case 'w':
                     case 's':
-                        this.maskX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        this.maskY = [-1, -2, -3, -4, -5, -6, 1, 2, 3, 4, 5, 6];
+                        this.maskX = [-1, -2, -3, -4, -5, -6, 1, 2, 3, 4, 5, 6];
+                        this.maskY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     break;
                     case 'a':
                     case 'd':
-                        this.maskX = [-1, -2, -3, -4, -5, -6, 1, 2, 3, 4, 5, 6];
-                        this.maskY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        this.maskX = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        this.maskY = [-1, -2, -3, -4, -5, -6, 1, 2, 3, 4, 5, 6];
                     break;
                 }
             break;
