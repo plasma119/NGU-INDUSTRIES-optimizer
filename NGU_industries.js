@@ -238,7 +238,6 @@ class NGU_industries {
     }
 
     optimizeLoop(alpha = 0.5) {
-        console.log(alpha)
         return new Promise((resolve) => {
             setTimeout(() => {
                 let best_yield = this.getYield();
