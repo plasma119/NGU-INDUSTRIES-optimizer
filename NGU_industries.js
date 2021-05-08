@@ -143,6 +143,7 @@ class NGU_industries {
         this.GUI_frame = null;
         this.shuffleList = [];
         this.optimizing = false;
+        this.minimumCost = 0;
     }
 
     /**
@@ -409,7 +410,7 @@ class NGU_industries_cell {
     }
 
     getYield() {
-        if (this.object) return this.object.output * this.getSpeed() * this.production / (this.cost > 0.5? this.cost: 0.5);
+        if (this.object) return this.object.output * this.getSpeed() * this.production / (this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost);
         return 0;
     }
 }

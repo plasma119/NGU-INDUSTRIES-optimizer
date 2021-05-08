@@ -111,6 +111,16 @@
                 b8.move(120, screen.y - 50);
                 gui_top.addObject(b8);
 
+                let b12 = new GUI_button({size:[140, 50], imgData:{text:"minimum cost: 0"}, onclick: () => {
+                    let arr = [0, 0.1, 0.25, 0.5];
+                    minimumCost++;
+                    if (minimumCost >= arr.length) minimumCost = 0;
+                    NGU.minimumCost = arr[minimumCost];
+                    b12.drawObject.text = 'minimum cost: ' + arr[minimumCost];
+                }});
+                b12.move(240, screen.y - 50);
+                gui_top.addObject(b12);
+
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
                     currentMap++;
                     if (currentMap >= maps.length) currentMap = 0; 
@@ -235,6 +245,7 @@
                 running: false
             };
             var strategy = 'sum';
+            var minimumCost = 0;
 
         </script>
         <div id="box"></div>
