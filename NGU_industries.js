@@ -162,7 +162,7 @@ class NGU_industries {
             for (let i = 0; i < this.w; i++) {
                 const cell = new NGU_industries_cell(this, i, j)
                 this.cells[j][i] = cell;
-                let k = j * this.h + i;
+                let k = j * this.w + i;
                 this.shuffleList[k] = k;
                 this.cellsFlat[k] = cell;
                 if (this.GUI_frame) {
@@ -409,7 +409,7 @@ class NGU_industries_cell {
     }
 
     getYield() {
-        if (this.object) return this.object.output * this.getSpeed() * this.production / this.cost;
+        if (this.object) return this.object.output * this.getSpeed() * this.production / Math.sqrt(this.cost);
         return 0;
     }
 }
