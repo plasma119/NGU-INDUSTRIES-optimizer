@@ -215,10 +215,21 @@ class NGU_industries {
         return x >= 0 && y >= 0 && x < this.w && y < this.h;
     }
 
+    reload() {
+        const arr = this.export();
+        for (let k = 0; k < this.cellsFlat.length; k++) {
+            this.cellsFlat[k].init();
+        }
+        this.import(arr);
+    }
+
     async optimize(callback) {
         if (this.optimizing) return;
         this.optimizing = true;
         for (let i = 0; i < 10000; i++) {
+            if (i % 50 == 0) {
+                this.reload();
+            }
             if (!this.optimizing) return this.getYield();
             callback(await this.optimizeLoop());
         }
