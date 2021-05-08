@@ -231,16 +231,16 @@ class NGU_industries {
                 this.reload();
             }
             if (!this.optimizing) return this.getYield();
-            callback(await this.optimizeLoop());
+            callback(await this.optimizeLoop(0.5 / (1 + Math.sqrt(i % 200))));
         }
         this.optimizing = false;
         return this.getYield();
     }
 
-    optimizeLoop() {
+    optimizeLoop(alpha = 0.5) {
+        console.log(alpha)
         return new Promise((resolve) => {
             setTimeout(() => {
-                const alpha = 0.5;
                 let best_yield = this.getYield();
                 let arr = this.export();
 
