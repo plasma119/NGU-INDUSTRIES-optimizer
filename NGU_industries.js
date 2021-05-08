@@ -378,7 +378,20 @@ class NGU_industries_cell {
         this.production += n;
     }
 
+    /**
+     * @param {number} n
+     */
+    addCost(n) {
+        if (n == 0) return;
+        if (n > 0) {
+            this.cost *= n;
+        } else {
+            this.cost /= -n;
+        }
+    }
+
     getSpeed() {
+        // add max speed check later
         return this.speed;
     }
 
@@ -386,8 +399,12 @@ class NGU_industries_cell {
         return this.production;
     }
 
+    getCost() {
+        return this.cost;
+    }
+
     getYield() {
-        if (this.object) return this.object.output * this.getSpeed() * this.getProduction();
+        if (this.object) return this.object.output * this.getSpeed() * this.production / this.cost;
         return 0;
     }
 }
@@ -518,6 +535,7 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                     case 'donut': effect = 0.08; break;
                     case 'arrow': effect = 0.07; break;
                 }
+                effect = 1 - effect;
                 this.costEffect = effect;
             break;
 
@@ -553,6 +571,7 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
             if (NGU.isValidPosition(sx, sy)) {
                 NGU.cells[sy][sx].addSpeed(this.speedEffect);
                 NGU.cells[sy][sx].addProduction(this.productionEffect);
+                NGU.cells[sy][sx].addCost(this.costEffect);
             }
         }
     }
@@ -570,6 +589,7 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
             if (NGU.isValidPosition(sx, sy)) {
                 NGU.cells[sy][sx].addSpeed(-this.speedEffect);
                 NGU.cells[sy][sx].addProduction(-this.productionEffect);
+                NGU.cells[sy][sx].addCost(-this.costEffect);
             }
         }
     }

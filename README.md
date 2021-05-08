@@ -11,6 +11,8 @@ Usage:
 5. Press 'optimize' button
 6. Press 'optimize' button again if you want to squeeze more performance in expense of time
 
+Score for each tile is calculated as: base production * speed * production / cost
+
 All images used are taken from the game.
 Rendered using my own GUI library with [REGL](https://github.com/regl-project/regl) for webgl renderer
 ~~although this project currently only uses the canvas2D renderer~~

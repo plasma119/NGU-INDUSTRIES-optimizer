@@ -65,26 +65,22 @@
                     if (optimizeTarget.arrow) type.push('arrow');
                     if (optimizeTarget.wall) type.push('wall');
                     if (optimizeTarget.donut) type.push('donut');
+                    function addBeacon(type, directions = ['w']) {
+                        directions.forEach((d) => {
+                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'speed', d));
+                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'production', d));
+                            if (optimizeTarget.cost) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'cost', d));
+                        });
+                    }
                     type.forEach(t => {
                         if (t == 'arrow') {
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'w'));
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'a'));
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 's'));
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'd'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'w'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'a'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 's'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'd'));
+                            addBeacon(t, ['w', 'a', 's', 'd']);
                         } else if (t == 'wall') {
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'w'));
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed', 'd'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'w'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production', 'd'));
+                            addBeacon(t, ['w', 'a']);
                         } else {
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'speed'));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(t, 'production'));
+                            addBeacon(t);
                         }
-                    })
+                    });
                     NGU.optimize((yield)=>{
                         b.drawObject.text = "optimizing: " + Math.round(yield);
                     }).then((yield) => {
@@ -132,12 +128,20 @@
                 b7.move(100, screen.y - 150);
                 gui_top.addObject(b7);
 
+                let b9 = new GUI_button({imgData:{text:"cost"}, onclick: () => {
+                    optimizeTarget.cost = !optimizeTarget.cost;
+                    b9.drawObject.color = optimizeTarget.cost? '#00ff00': '#ff0000';
+                    b9.drawObject.fillColor = optimizeTarget.cost? '#008800': '#880000';
+                }});
+                b9.move(200, screen.y - 150);
+                gui_top.addObject(b9);
+
                 let b3 = new GUI_button({imgData:{text:"box"}, onclick: () => {
                     optimizeTarget.box = !optimizeTarget.box;
                     b3.drawObject.color = optimizeTarget.box? '#00ff00': '#ff0000';
                     b3.drawObject.fillColor = optimizeTarget.box? '#008800': '#880000';
                 }});
-                b3.move(200, screen.y - 150);
+                b3.move(300, screen.y - 150);
                 gui_top.addObject(b3);
 
                 let b4 = new GUI_button({imgData:{text:"knight"}, onclick: () => {
@@ -145,7 +149,7 @@
                     b4.drawObject.color = optimizeTarget.knight? '#00ff00': '#ff0000';
                     b4.drawObject.fillColor = optimizeTarget.knight? '#008800': '#880000';
                 }});
-                b4.move(300, screen.y - 150);
+                b4.move(400, screen.y - 150);
                 gui_top.addObject(b4);
 
                 let b5 = new GUI_button({imgData:{text:"arrow"}, onclick: () => {
@@ -153,7 +157,7 @@
                     b5.drawObject.color = optimizeTarget.arrow? '#00ff00': '#ff0000';
                     b5.drawObject.fillColor = optimizeTarget.arrow? '#008800': '#880000';
                 }});
-                b5.move(400, screen.y - 150);
+                b5.move(500, screen.y - 150);
                 gui_top.addObject(b5);
 
                 let b10 = new GUI_button({imgData:{text:"wall"}, onclick: () => {
@@ -161,7 +165,7 @@
                     b10.drawObject.color = optimizeTarget.wall? '#00ff00': '#ff0000';
                     b10.drawObject.fillColor = optimizeTarget.wall? '#008800': '#880000';
                 }});
-                b10.move(500, screen.y - 150);
+                b10.move(600, screen.y - 150);
                 gui_top.addObject(b10);
 
                 let b11 = new GUI_button({imgData:{text:"donut"}, onclick: () => {
@@ -169,7 +173,7 @@
                     b11.drawObject.color = optimizeTarget.donut? '#00ff00': '#ff0000';
                     b11.drawObject.fillColor = optimizeTarget.donut? '#008800': '#880000';
                 }});
-                b11.move(600, screen.y - 150);
+                b11.move(700, screen.y - 150);
                 gui_top.addObject(b11);
 
                 button = new GUI_button({size:[screen.x, screen.y], onclick: (mz) => {
@@ -219,7 +223,8 @@
                 wall: true,
                 donut: true,
                 speed: true,
-                production: true
+                production: true,
+                cost: true
             };
             var strategy = 'sum';
 
