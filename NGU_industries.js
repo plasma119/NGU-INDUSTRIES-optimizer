@@ -16,41 +16,48 @@ class GUI_object_NGU_industries extends GUI_frame {
             NGU: null
         },param));
         this.id = IDC.get("GUI_NGU");
+        this.tiles = [];
     }
 
     draw(gui) {
         /** @type {NGU_industries} */
         let NGU = this.param.NGU;
         if (gui instanceof WGUI2) {
-            for (let i = 0; i < NGU.w; i++) {
-                for (let j = 0; j < NGU.h; j++) {
-                    let p = {
-                        type: "image",
-                        x: i * 50,
-                        y: j * 50,
-                        w: 50,
-                        h: 50,
-                        data: NGU.layout[j][i]? "tile1":"tile2",
-                    };
-                    gui.drawObject(new DrawObject(p));
+            if (this.tiles.length == 0) {
+                for (let i = 0; i < this.param.NGU.w; i++) {
+                    for (let j = 0; j < this.param.NGU.h; j++) {
+                        let p = {
+                            type: "image",
+                            x: i * 50,
+                            y: j * 50,
+                            w: 50,
+                            h: 50,
+                            data: "tile1",
+                            i: i,
+                            j: j
+                        };
+                        this.tiles.push(new DrawObject(p));
+                    }
                 }
+            }
+            for (let k = 0; k < this.tiles.length; k++) {
+                let o = this.tiles[k];
+                o.data = NGU.layout[o.j][o.i]? "tile1":"tile2";
+                gui.drawObject(o);
             }
             super.draw(gui);
         } else {
-            return;
             for (let i = 0; i < NGU.w; i++) {
                 for (let j = 0; j < NGU.h; j++) {
+                    let t = NGU.cells[j][i].getText();
+                    if (t == '0') continue;
                     let p = {
-                        type: "rect_1_text",
-                        x: i * 50,
-                        y: j * 50,
-                        w: 50,
-                        h: 50,
-                        width: 1,
+                        type: "text_line",
+                        x: i * 50 + 25,
+                        y: j * 50 + 25,
                         color: "#ffffff",
-                        fillColor: "#00000000",
                         size: 20,
-                        text: NGU.cells[j][i].getText(),
+                        text: t,
                     };
                     gui.drawObject(new DrawObject(p));
                 }

@@ -513,7 +513,7 @@ class WGUI2 {
                 m.scale(o.w, o.h);
                 // vertex data decode finished
                 // we can check actual draw area now
-                if (!this.shapeCheck(this.shapeTransform(this.shape.square, m, vshift))) break;
+                //if (!this.shapeCheck(this.shapeTransform(this.shape.square, m, vshift))) break;
 
                 this.checkTextureCommand(texture);
                 this.checkCommand('gl_drawSprites');
