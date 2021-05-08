@@ -409,7 +409,7 @@ class NGU_industries_cell {
     }
 
     getYield() {
-        if (this.object) return this.object.output * this.getSpeed() * this.production / Math.sqrt(this.cost);
+        if (this.object) return this.object.output * this.getSpeed() * this.production / (this.cost > 0.5? this.cost: 0.5);
         return 0;
     }
 }
