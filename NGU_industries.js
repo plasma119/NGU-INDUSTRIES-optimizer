@@ -142,6 +142,7 @@ class NGU_industries {
         /** @type {GUI_frame} */
         this.GUI_frame = null;
         this.shuffleList = [];
+        this.optimizing = false;
     }
 
     /**
@@ -207,9 +208,13 @@ class NGU_industries {
     }
 
     async optimize(callback) {
-        for (let i = 0; i < 200; i++) {
+        if (this.optimizing) return;
+        this.optimizing = true;
+        for (let i = 0; i < 10000; i++) {
+            if (!this.optimizing) return this.getYield();
             callback(await this.optimizeLoop());
         }
+        this.optimizing = false;
         return this.getYield();
     }
 
@@ -250,8 +255,8 @@ class NGU_industries {
         let list = this.shuffleList.slice();
         shuffleArray(list);
         for (let k = 0; k < list.length; k++) {
-            let i = list[k] % this.h;
-            let j = Math.floor(list[k] / this.h);
+            let i = list[k] % this.w;
+            let j = Math.floor(list[k] / this.w);
             if (this.layout[j][i]) this.optimizeCell(i, j);
         }
         return this.getYield();

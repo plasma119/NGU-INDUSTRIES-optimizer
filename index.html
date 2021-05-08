@@ -58,6 +58,12 @@
                 NGU.initLayout(maps[0]);
 
                 let b = new GUI_button({size:[120, 50], imgData:{text:"optimize"}, onclick: () => {
+                    if (optimizeTarget.running) {
+                        // stop optimizing
+                        NGU.optimizing = false;
+                        return;
+                    }
+                    optimizeTarget.running = true;
                     NGU.optimizeList = [new NGU_industries_object_Lab()];
                     let type = [];
                     if (optimizeTarget.box) type.push('box');
@@ -84,6 +90,7 @@
                     NGU.optimize((yield)=>{
                         b.drawObject.text = "optimizing: " + Math.round(yield);
                     }).then((yield) => {
+                        optimizeTarget.running = false;
                         b.drawObject.text = "optimized: " + Math.round(yield);
                     });
                 }});
@@ -224,7 +231,8 @@
                 donut: true,
                 speed: true,
                 production: true,
-                cost: true
+                cost: true,
+                running: false
             };
             var strategy = 'sum';
 
