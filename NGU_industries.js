@@ -153,7 +153,7 @@ class NGU_industries {
             this.GUI_frame.clearObjects();
         }
         this.layout = layout;
-        this.h = 16;
+        this.h = 17;
         this.w = 20;
         this.cellsFlat = [];
         this.shuffleList = [];
