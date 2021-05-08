@@ -9,7 +9,7 @@ Usage:
 3. Disable/Enable tiles by clicking on it
 4. Select optimize strategy ('sum' is overall production, 'max' is single tile production for infinite resources)
 5. Press 'optimize' button
-6. Press 'optimize' button again if you want to squeeze more performance in expense of time
+6. Press 'optimize' button again to stop optimizing
 
 Score for each tile is calculated as: base production * speed * production / cost
 
