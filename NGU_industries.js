@@ -1,6 +1,13 @@
 
 //@ts-check
 
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 // all coordinates are Grid[y][x]
 
 class GUI_object_NGU_industries extends GUI_frame {
@@ -127,12 +134,14 @@ class NGU_industries {
         this.layout = [];
         /** @type {NGU_industries_cell[][]} */
         this.cells = [];
+        this.cellsFlat = [];
         this.w = 0;
         this.h = 0;
         this.optimizeList = [];
         this.getYield = this.yieldStrategySum;
         /** @type {GUI_frame} */
         this.GUI_frame = null;
+        this.shuffleList = [];
     }
 
     /**
@@ -143,18 +152,24 @@ class NGU_industries {
             this.GUI_frame.clearObjects();
         }
         this.layout = layout;
-        this.h = layout.length;
-        this.w = layout[0].length;
+        this.h = 16;
+        this.w = 20;
+        this.cellsFlat = [];
+        this.shuffleList = [];
         for (let j = 0; j < this.h; j++) {
             this.cells[j] = [];
             for (let i = 0; i < this.w; i++) {
-                this.cells[j][i] = new NGU_industries_cell(this, i, j);
+                const cell = new NGU_industries_cell(this, i, j)
+                this.cells[j][i] = cell;
+                let k = j * this.h + i;
+                this.shuffleList[k] = k;
+                this.cellsFlat[k] = cell;
                 if (this.GUI_frame) {
                     const sprite = new GUI_object_NGU_sprite({size:[50, 50]});
                     sprite.moveTo(i*50, j*50);
                     this.GUI_frame.addObject(sprite);
-                    this.cells[j][i].GUI_sprite = sprite;
-                    sprite.cell = this.cells[j][i];
+                    cell.GUI_sprite = sprite;
+                    sprite.cell = cell;
                 }
             }
         }
@@ -232,10 +247,12 @@ class NGU_industries {
     }
 
     optimizeOnce() {
-        for (let i = 0; i < this.w; i++) {
-            for (let j = 0; j < this.h; j++) {
-                if (this.layout[j][i]) this.optimizeCell(i, j);
-            }
+        let list = this.shuffleList.slice();
+        shuffleArray(list);
+        for (let k = 0; k < list.length; k++) {
+            let i = list[k] % this.h;
+            let j = Math.floor(list[k] / this.h);
+            if (this.layout[j][i]) this.optimizeCell(i, j);
         }
         return this.getYield();
     }
@@ -264,27 +281,17 @@ class NGU_industries {
 
     yieldStrategySum() {
         let total = 0;
-        for (let i = 0; i < this.w; i++) {
-            for (let j = 0; j < this.h; j++) {
-                let t = this.cells[j][i];
-                if (t.object) {
-                    total += t.getYield() * this.layout[j][i];
-                }
-            }
+        for (let k = 0; k < this.cellsFlat.length; k++) {
+            total += this.cellsFlat[k].getYield();
         }
         return total;
     }
 
     yieldStrategyMax() {
         let max = 0;
-        for (let i = 0; i < this.w; i++) {
-            for (let j = 0; j < this.h; j++) {
-                let t = this.cells[j][i];
-                if (t.object) {
-                    let y = t.getYield() * this.layout[j][i];
-                    if (y > max) max = y;
-                }
-            }
+        for (let k = 0; k < this.cellsFlat.length; k++) {
+            let y = this.cellsFlat[k].getYield();
+            if (y > max) max = y;
         }
         return max;
     }
