@@ -23,6 +23,7 @@
             function ini() {
                 box = document.getElementById("box");
                 engine = new RAPI(box, screen.x, screen.y);
+                gui_bottom = engine.addLayer("WGUI2");
                 gui_main = engine.addLayer();
                 gui_top = engine.addLayer();
 
@@ -54,6 +55,7 @@
 
                 let frame = new GUI_object_NGU_industries({NGU: NGU});
                 gui_main.addObject(frame);
+                gui_bottom.addObject(frame); // I'm lazy
                 NGU.GUI_frame = frame;
                 NGU.initLayout(maps[0]);
 

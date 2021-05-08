@@ -21,39 +21,39 @@ class GUI_object_NGU_industries extends GUI_frame {
     draw(gui) {
         /** @type {NGU_industries} */
         let NGU = this.param.NGU;
-        for (let i = 0; i < NGU.w; i++) {
-            for (let j = 0; j < NGU.h; j++) {
-                let p = {
-                    type: "rect_1",
-                    x: i * 50,
-                    y: j * 50,
-                    w: 50,
-                    h: 50,
-                    width: 1,
-                    color: NGU.layout[j][i]? "#00ff00":"#ff0000",
-                    fillColor: NGU.layout[j][i]? "#008800":"#880000",
-                    size: 10,
-                    text: NGU.cells[j][i].getText(),
-                };
-                gui.drawObject(new DrawObject(p));
+        if (gui instanceof WGUI2) {
+            for (let i = 0; i < NGU.w; i++) {
+                for (let j = 0; j < NGU.h; j++) {
+                    let p = {
+                        type: "image",
+                        x: i * 50,
+                        y: j * 50,
+                        w: 50,
+                        h: 50,
+                        data: NGU.layout[j][i]? "tile1":"tile2",
+                    };
+                    gui.drawObject(new DrawObject(p));
+                }
             }
-        }
-        super.draw(gui);
-        for (let i = 0; i < NGU.w; i++) {
-            for (let j = 0; j < NGU.h; j++) {
-                let p = {
-                    type: "rect_1_text",
-                    x: i * 50,
-                    y: j * 50,
-                    w: 50,
-                    h: 50,
-                    width: 1,
-                    color: "#ffffff",
-                    fillColor: "#00000000",
-                    size: 20,
-                    text: NGU.cells[j][i].getText(),
-                };
-                gui.drawObject(new DrawObject(p));
+            super.draw(gui);
+        } else {
+            return;
+            for (let i = 0; i < NGU.w; i++) {
+                for (let j = 0; j < NGU.h; j++) {
+                    let p = {
+                        type: "rect_1_text",
+                        x: i * 50,
+                        y: j * 50,
+                        w: 50,
+                        h: 50,
+                        width: 1,
+                        color: "#ffffff",
+                        fillColor: "#00000000",
+                        size: 20,
+                        text: NGU.cells[j][i].getText(),
+                    };
+                    gui.drawObject(new DrawObject(p));
+                }
             }
         }
     }
