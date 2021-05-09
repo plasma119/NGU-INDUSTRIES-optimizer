@@ -53,17 +53,35 @@ class GUI_object_NGU_industries extends GUI_frame {
         } else {
             for (let i = 0; i < NGU.w; i++) {
                 for (let j = 0; j < NGU.h; j++) {
-                    let t = NGU.cells[j][i].getText();
+                    let t = NGU.cells[j][i].getYieldNoCostText();
                     if (t == '0') continue;
+                    gui.drawObject(new DrawObject({
+                        type: "rect_fill",
+                        x: i * 50,
+                        y: j * 50,
+                        w: 50,
+                        h: 50,
+                        fillColor: "#00000044"
+                    }));
                     let p = {
                         type: "text_line",
                         x: i * 50 + 25,
-                        y: j * 50 + 25,
+                        y: j * 50 + 15,
                         color: "#ffffff",
                         size: 20,
                         text: t,
                     };
                     gui.drawObject(new DrawObject(p));
+                    let t2 = NGU.cells[j][i].getCostText();
+                    let p2 = {
+                        type: "text_line",
+                        x: i * 50 + 25,
+                        y: j * 50 + 35,
+                        color: "#ffff88",
+                        size: 20,
+                        text: t2,
+                    };
+                    gui.drawObject(new DrawObject(p2));
                 }
             }
         }
@@ -387,10 +405,6 @@ class NGU_industries_cell {
         this.object = null;
     }
 
-    getText() {
-        return `${Math.round(this.getYield()*10)/10}`;
-    }
-
     /**
      * @param {number} n 
      */
@@ -433,6 +447,23 @@ class NGU_industries_cell {
     getYield() {
         if (this.object) return this.object.output * this.getSpeed() * this.production / (this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost);
         return 0;
+    }
+
+    getYieldText() {
+        return `${Math.round(this.getYield()*10)/10}`;
+    }
+
+    getYieldNoCost() {
+        if (this.object) return this.object.output * this.getSpeed() * this.production;
+        return 0;
+    }
+
+    getYieldNoCostText() {
+        return `${Math.round(this.getYieldNoCost()*10)/10}`;
+    }
+
+    getCostText() {
+        return `${Math.round(this.getCost()*100)/100}`;
     }
 }
 
