@@ -582,18 +582,18 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
                 switch (direction) {
                     case 'w':
                         this.maskX = [-2, -1, -1, 0, 0, 0, 0, 0, 1, 1, 2];
-                        this.maskY = [-2, -2, -3, -1, -2, -3, -4, -5, -2, -3, -2];
+                        this.maskY = [-3, -3, -4, -1, -2, -3, -4, -5, -3, -4, -3];
                     break;
                     case 'a':
-                        this.maskX = [-2, -2, -3, -1, -2, -3, -4, -5, -2, -3, -2];
+                        this.maskX = [-3, -3, -4, -1, -2, -3, -4, -5, -3, -4, -3];
                         this.maskY = [-2, -1, -1, 0, 0, 0, 0, 0, 1, 1, 2];
                     break;
                     case 's':
                         this.maskX = [-2, -1, -1, 0, 0, 0, 0, 0, 1, 1, 2];
-                        this.maskY = [2, 2, 3, 1, 2, 3, 4, 5, 2, 3, 2];
+                        this.maskY = [3, 3, 4, 1, 2, 3, 4, 5, 3, 4, 3];
                     break;
                     case 'd':
-                        this.maskX = [2, 2, 3, 1, 2, 3, 4, 5, 2, 3, 2];
+                        this.maskX = [3, 3, 4, 1, 2, 3, 4, 5, 3, 4, 3];
                         this.maskY = [-2, -1, -1, 0, 0, 0, 0, 0, 1, 1, 2];
                     break;
                 }
