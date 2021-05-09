@@ -12,7 +12,7 @@ Usage:
 6. Press 'optimize' button again to stop optimizing
 
 Score for each tile is calculated as: base production * speed * production / cost
+Minimum cost is the minimum effective value for cost beacon on a single tile, to make it less aggresive on putting cost beacon everywhere.
 
 All images used are taken from the game.
 Rendered using my own GUI library with [REGL](https://github.com/regl-project/regl) for webgl renderer
-~~although this project currently only uses the canvas2D renderer~~
