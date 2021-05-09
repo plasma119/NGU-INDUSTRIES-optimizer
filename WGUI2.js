@@ -680,6 +680,8 @@ class WGUI2 {
                 var img = this.engine.imageManager.getImage(data);
                 if (!img) {
                     // cannot find src image
+                    console.log(`Warning: cannot find image [${img}]`);
+                    console.log(`Maybe we are getting old data, wait for server to update cache please.`);
                     return new ReglTexture(new Image(1, 1), this.regl);
                 } else if (img instanceof SpriteSheetImage) {
                     // get actual src image from spritesheet
