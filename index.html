@@ -32,9 +32,8 @@
                 gui_main.FPS_counter = fpsc;
                 fpsc.deploy(gui_top);
 
-                var upsc = new GUI_counter({ text: "UPS:", interval: 1000 });
+                upsc = new GUI_counter({ text: "UPS:", interval: 1000 });
                 upsc.move(screen.x - 50, screen.y - 50);
-                gui_main.UPS_counter = upsc;
                 upsc.deploy(gui_top);
 
                 // NGU.layout.map((arr)=>{return arr.map((b)=>b?1:0).join(',')}).join('],[')
@@ -90,6 +89,7 @@
                         }
                     });
                     NGU.optimize((yield)=>{
+                        upsc.count++;
                         b.drawObject.text = "optimizing: " + Math.round(yield*100)/100;
                     }).then((yield) => {
                         optimizeTarget.running = false;
@@ -238,6 +238,7 @@
             
             var box, engine, gui_main, gui_top;
             var screen = { x: 1000, y: 1000 };
+            var upsc;
 
             var NGU = new NGU_industries();
             var maps, currentMap = 0;
