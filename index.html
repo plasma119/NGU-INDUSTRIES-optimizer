@@ -123,6 +123,12 @@
                 b12.move(260, screen.y - 50);
                 gui_top.addObject(b12);
 
+                let b13 = new GUI_button({size:[120, 50], imgData:{text:"change display"}, onclick: () => {
+                    NGU.GUI_frame.displayType++;
+                }});
+                b13.move(420, screen.y - 50);
+                gui_top.addObject(b13);
+
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
                     currentMap++;
                     if (currentMap >= maps.length) currentMap = 0; 

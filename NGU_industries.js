@@ -17,6 +17,7 @@ class GUI_object_NGU_industries extends GUI_frame {
         },param));
         this.id = IDC.get("GUI_NGU");
         this.tiles = [];
+        this.displayType = 0;
     }
 
     draw(gui) {
@@ -53,7 +54,7 @@ class GUI_object_NGU_industries extends GUI_frame {
         } else {
             for (let i = 0; i < NGU.w; i++) {
                 for (let j = 0; j < NGU.h; j++) {
-                    let t = NGU.cells[j][i].getYieldNoCostText();
+                    let t = NGU.cells[j][i].getYieldText();
                     if (t == '0') continue;
                     gui.drawObject(new DrawObject({
                         type: "rect_fill",
@@ -63,25 +64,73 @@ class GUI_object_NGU_industries extends GUI_frame {
                         h: 50,
                         fillColor: "#00000044"
                     }));
-                    let p = {
-                        type: "text_line",
-                        x: i * 50 + 25,
-                        y: j * 50 + 15,
-                        color: "#ffffff",
-                        size: 20,
-                        text: t,
-                    };
-                    gui.drawObject(new DrawObject(p));
-                    let t2 = NGU.cells[j][i].getCostText();
-                    let p2 = {
-                        type: "text_line",
-                        x: i * 50 + 25,
-                        y: j * 50 + 35,
-                        color: "#ffff88",
-                        size: 20,
-                        text: t2,
-                    };
-                    gui.drawObject(new DrawObject(p2));
+                    let p, p2, p3;
+                    switch (this.displayType) {
+                        case 0:
+                        default:
+                            this.displayType = 0;
+                            p = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 25,
+                                color: "#ffffff",
+                                size: 20,
+                                text: t,
+                            };
+                            gui.drawObject(new DrawObject(p));
+                        break;
+
+                        case 1:
+                            p = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 15,
+                                color: "#ffffff",
+                                size: 20,
+                                text: NGU.cells[j][i].getYieldNoCostText()
+                            };
+                            gui.drawObject(new DrawObject(p));
+                            p2 = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 35,
+                                color: "#ffff88",
+                                size: 20,
+                                text: NGU.cells[j][i].getCostText()
+                            };
+                            gui.drawObject(new DrawObject(p2));
+                        break;
+
+                        case 2:
+                            p = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 8,
+                                color: "#ddddff",
+                                size: 15,
+                                text: NGU.cells[j][i].getSpeedText()
+                            };
+                            gui.drawObject(new DrawObject(p));
+                            p2 = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 25,
+                                color: "#ffbbff",
+                                size: 15,
+                                text: NGU.cells[j][i].getProductionText()
+                            };
+                            gui.drawObject(new DrawObject(p2));
+                            p3 = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 42,
+                                color: "#ffff88",
+                                size: 15,
+                                text: NGU.cells[j][i].getCostText()
+                            };
+                            gui.drawObject(new DrawObject(p3));
+                        break;
+                    }
                 }
             }
         }
@@ -436,12 +485,24 @@ class NGU_industries_cell {
         return this.speed;
     }
 
+    getSpeedText() {
+        return `${Math.round(this.getSpeed()*100)/100}`;
+    }
+
     getProduction() {
         return this.production;
     }
 
+    getProductionText() {
+        return `${Math.round(this.getProduction()*100)/100}`;
+    }
+
     getCost() {
         return this.cost;
+    }
+
+    getCostText() {
+        return `${Math.round(this.getCost()*100)/100}`;
     }
 
     getYield() {
@@ -462,9 +523,6 @@ class NGU_industries_cell {
         return `${Math.round(this.getYieldNoCost()*10)/10}`;
     }
 
-    getCostText() {
-        return `${Math.round(this.getCost()*100)/100}`;
-    }
 }
 
 class NGU_industries_object {
