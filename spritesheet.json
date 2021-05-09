@@ -122,7 +122,7 @@
 },
 {
 	"filename": "crappy_staples.png",
-	"frame": {"x":187,"y":598,"w":101,"h":86},
+	"frame": {"x":208,"y":598,"w":101,"h":86},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":86},
@@ -274,7 +274,7 @@
 },
 {
 	"filename": "think_juice_T3.png",
-	"frame": {"x":290,"y":599,"w":90,"h":92},
+	"frame": {"x":311,"y":599,"w":90,"h":92},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
@@ -282,11 +282,27 @@
 },
 {
 	"filename": "think_juice_T4.png",
-	"frame": {"x":382,"y":599,"w":90,"h":92},
+	"frame": {"x":403,"y":599,"w":90,"h":92},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":90,"h":92},
 	"sourceSize": {"w":90,"h":92}
+},
+{
+	"filename": "tile1.png",
+	"frame": {"x":156,"y":590,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
+},
+{
+	"filename": "tile2.png",
+	"frame": {"x":435,"y":469,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 },
 {
 	"filename": "WBC.png",
@@ -319,6 +335,6 @@
 	"format": "RGBA8888",
 	"size": {"w":504,"h":780},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:2ff4f2d110981a1f8bca10f36aa32e27:30bced59a48e0c0490b2d9ef16c438c9:729adc6043343cfda41c447ce8f464d6$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d4fd99bfe60577be84927b619028ff30:13be6ae2456b3aa1ee7075ebe3df8186:729adc6043343cfda41c447ce8f464d6$"
 }
 }

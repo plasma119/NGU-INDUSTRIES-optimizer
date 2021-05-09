@@ -16,44 +16,55 @@ class GUI_object_NGU_industries extends GUI_frame {
             NGU: null
         },param));
         this.id = IDC.get("GUI_NGU");
+        this.tiles = [];
     }
 
     draw(gui) {
         /** @type {NGU_industries} */
         let NGU = this.param.NGU;
-        for (let i = 0; i < NGU.w; i++) {
-            for (let j = 0; j < NGU.h; j++) {
-                let p = {
-                    type: "rect_1",
-                    x: i * 50,
-                    y: j * 50,
-                    w: 50,
-                    h: 50,
-                    width: 1,
-                    color: NGU.layout[j][i]? "#00ff00":"#ff0000",
-                    fillColor: NGU.layout[j][i]? "#008800":"#880000",
-                    size: 10,
-                    text: NGU.cells[j][i].getText(),
-                };
-                gui.drawObject(new DrawObject(p));
+        if (gui instanceof WGUI2) {
+            if (this.tiles.length == 0) {
+                for (let i = 0; i < this.param.NGU.w; i++) {
+                    for (let j = 0; j < this.param.NGU.h; j++) {
+                        let p = {
+                            type: "image",
+                            x: i * 50,
+                            y: j * 50,
+                            w: 50,
+                            h: 50,
+                            sx: 0,
+                            sy: 0,
+                            sw: 50,
+                            sh: 50,
+                            data: "tile1",
+                            i: i,
+                            j: j
+                        };
+                        this.tiles.push(new DrawObject(p));
+                    }
+                }
             }
-        }
-        super.draw(gui);
-        for (let i = 0; i < NGU.w; i++) {
-            for (let j = 0; j < NGU.h; j++) {
-                let p = {
-                    type: "rect_1_text",
-                    x: i * 50,
-                    y: j * 50,
-                    w: 50,
-                    h: 50,
-                    width: 1,
-                    color: "#ffffff",
-                    fillColor: "#00000000",
-                    size: 20,
-                    text: NGU.cells[j][i].getText(),
-                };
-                gui.drawObject(new DrawObject(p));
+            for (let k = 0; k < this.tiles.length; k++) {
+                let o = this.tiles[k];
+                o.data = NGU.layout[o.j][o.i]? "tile1":"tile2";
+                gui.drawObject(o);
+            }
+            super.draw(gui);
+        } else {
+            for (let i = 0; i < NGU.w; i++) {
+                for (let j = 0; j < NGU.h; j++) {
+                    let t = NGU.cells[j][i].getText();
+                    if (t == '0') continue;
+                    let p = {
+                        type: "text_line",
+                        x: i * 50 + 25,
+                        y: j * 50 + 25,
+                        color: "#ffffff",
+                        size: 20,
+                        text: t,
+                    };
+                    gui.drawObject(new DrawObject(p));
+                }
             }
         }
     }
@@ -208,21 +219,31 @@ class NGU_industries {
         return x >= 0 && y >= 0 && x < this.w && y < this.h;
     }
 
+    reload() {
+        const arr = this.export();
+        for (let k = 0; k < this.cellsFlat.length; k++) {
+            this.cellsFlat[k].init();
+        }
+        this.import(arr);
+    }
+
     async optimize(callback) {
         if (this.optimizing) return;
         this.optimizing = true;
         for (let i = 0; i < 10000; i++) {
+            if (i % 50 == 0) {
+                this.reload();
+            }
             if (!this.optimizing) return this.getYield();
-            callback(await this.optimizeLoop());
+            callback(await this.optimizeLoop(0.5 / (1 + Math.sqrt(i % 200))));
         }
         this.optimizing = false;
         return this.getYield();
     }
 
-    optimizeLoop() {
+    optimizeLoop(alpha = 0.5) {
         return new Promise((resolve) => {
             setTimeout(() => {
-                const alpha = 0.5;
                 let best_yield = this.getYield();
                 let arr = this.export();
 

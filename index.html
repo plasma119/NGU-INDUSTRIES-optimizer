@@ -23,6 +23,7 @@
             function ini() {
                 box = document.getElementById("box");
                 engine = new RAPI(box, screen.x, screen.y);
+                gui_bottom = engine.addLayer("WGUI2");
                 gui_main = engine.addLayer();
                 gui_top = engine.addLayer();
 
@@ -54,10 +55,11 @@
 
                 let frame = new GUI_object_NGU_industries({NGU: NGU});
                 gui_main.addObject(frame);
+                gui_bottom.addObject(frame); // I'm lazy
                 NGU.GUI_frame = frame;
                 NGU.initLayout(maps[0]);
 
-                let b = new GUI_button({size:[120, 50], imgData:{text:"optimize"}, onclick: () => {
+                let b = new GUI_button({size:[140, 50], imgData:{text:"optimize"}, onclick: () => {
                     if (optimizeTarget.running) {
                         // stop optimizing
                         NGU.optimizing = false;
@@ -88,10 +90,10 @@
                         }
                     });
                     NGU.optimize((yield)=>{
-                        b.drawObject.text = "optimizing: " + Math.round(yield);
+                        b.drawObject.text = "optimizing: " + Math.round(yield*100)/100;
                     }).then((yield) => {
                         optimizeTarget.running = false;
-                        b.drawObject.text = "optimized: " + Math.round(yield);
+                        b.drawObject.text = "optimized: " + Math.round(yield*100)/100;
                     });
                 }});
                 b.move(0, screen.y - 50);
@@ -108,17 +110,17 @@
                         b8.drawObject.text = 'strategy: sum';
                     }
                 }});
-                b8.move(120, screen.y - 50);
+                b8.move(140, screen.y - 50);
                 gui_top.addObject(b8);
 
-                let b12 = new GUI_button({size:[140, 50], imgData:{text:"minimum cost: 0"}, onclick: () => {
+                let b12 = new GUI_button({size:[160, 50], imgData:{text:"minimum cost: 0"}, onclick: () => {
                     let arr = [0, 0.1, 0.25, 0.5];
                     minimumCost++;
                     if (minimumCost >= arr.length) minimumCost = 0;
                     NGU.minimumCost = arr[minimumCost];
                     b12.drawObject.text = 'minimum cost: ' + arr[minimumCost];
                 }});
-                b12.move(240, screen.y - 50);
+                b12.move(260, screen.y - 50);
                 gui_top.addObject(b12);
 
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
