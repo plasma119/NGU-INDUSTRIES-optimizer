@@ -484,7 +484,6 @@ class NGU_industries {
     }
 
     yieldStrategyMax(recalculate) {
-        if (!recalculate) return this.currentYield;
         let max = 0;
         for (let k = 0; k < this.cellsFlat.length; k++) {
             let y = this.cellsFlat[k].getYield();
@@ -495,8 +494,9 @@ class NGU_industries {
     }
 
     // called per tile change
+    // nope, to implement this I need all current scores for all tiles
+    // it is fast enough already if you do prod. beacon only
     yieldStrategyMaxUpdate(before, after) {
-        if (after > this.currentYield) this.currentYield = after;
         return this.currentYield;
     }
 
