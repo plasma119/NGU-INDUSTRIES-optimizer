@@ -32,6 +32,10 @@ class GUI_object_NGU_industries extends GUI_frame {
                             y: j * 50,
                             w: 50,
                             h: 50,
+                            sx: 0,
+                            sy: 0,
+                            sw: 50,
+                            sh: 50,
                             data: "tile1",
                             i: i,
                             j: j
