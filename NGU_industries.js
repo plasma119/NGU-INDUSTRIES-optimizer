@@ -235,15 +235,12 @@ class NGU_industries {
         this.h = 17;
         this.w = 20;
         this.cellsFlat = [];
-        this.shuffleList = [];
         for (let j = 0; j < this.h; j++) {
             this.cells[j] = [];
             for (let i = 0; i < this.w; i++) {
                 const cell = new NGU_industries_cell(this, i, j)
                 this.cells[j][i] = cell;
-                let k = j * this.w + i;
-                this.shuffleList[k] = k;
-                this.cellsFlat[k] = cell;
+                this.cellsFlat[j * this.w + i] = cell;
                 if (this.GUI_frame) {
                     const sprite = new GUI_object_NGU_sprite({size:[50, 50]});
                     sprite.moveTo(i*50, j*50);
@@ -298,6 +295,14 @@ class NGU_industries {
         if (this.optimizing) return;
         this.optimizing = true;
         for (let i = 0; i < 10000; i++) {
+            this.shuffleList = [];
+            let index = 0;
+            for (let i = 0; i < this.w; i++) {
+                for (let j = 0; j < this.h; j++) {
+                    if (!this.layout[j][i]) continue;
+                    this.shuffleList[index++] = j * this.w + i;
+                }
+            }
             if (i % 50 == 0) {
                 this.reload();
             }
@@ -322,10 +327,12 @@ class NGU_industries {
 
                 let p_y = this.getYield();
                 let p = this.optimizeOnce();
-                for (let k = 0; k < 5; k++) {
+                for (let k = 0; k < 20; k++) {
                     if (p > p_y) {
                         p_y = p;
                         p = this.optimizeOnce();
+                    } else {
+                        break;
                     }
                 }
 
