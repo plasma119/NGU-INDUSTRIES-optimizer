@@ -113,21 +113,35 @@
                 b8.move(140, screen.y - 50);
                 gui_top.addObject(b8);
 
-                let b12 = new GUI_button({size:[160, 50], imgData:{text:"minimum cost: 0"}, onclick: () => {
-                    let arr = [0, 0.1, 0.25, 0.5];
-                    minimumCost++;
-                    if (minimumCost >= arr.length) minimumCost = 0;
-                    NGU.minimumCost = arr[minimumCost];
-                    b12.drawObject.text = 'minimum cost: ' + arr[minimumCost];
-                }});
-                b12.move(260, screen.y - 50);
-                gui_top.addObject(b12);
-
                 let b13 = new GUI_button({size:[120, 50], imgData:{text:"change display"}, onclick: () => {
                     NGU.GUI_frame.displayType++;
                 }});
-                b13.move(420, screen.y - 50);
+                b13.move(260, screen.y - 50);
                 gui_top.addObject(b13);
+
+                let b21 = new GUI_input_number({
+                    size:[160, 50], text:'max speed: ', increment: 0.1, increment2: 1, start: 20,
+                    callback: (n) => {
+                    NGU.maxSpeed = n;
+                }});
+                b21.move(380, screen.y - 50);
+                gui_top.addObject(b21);
+
+                let b22 = new GUI_input_number({
+                    size:[160, 50], text:'max prod.: ', increment: 0.1, increment2: 1, start: 20,
+                    callback: (n) => {
+                    NGU.maxProduction = n;
+                }});
+                b22.move(b21.x + 160, screen.y - 50);
+                gui_top.addObject(b22);
+
+                let b23 = new GUI_input_number({
+                    size:[160, 50], text:'min. cost: ', increment: 0.01, increment2: 0.1, start: 0,
+                    callback: (n) => {
+                    NGU.minimumCost = n;
+                }});
+                b23.move(b22.x + 160, screen.y - 50);
+                gui_top.addObject(b23);
 
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
                     currentMap++;
@@ -254,7 +268,6 @@
                 running: false
             };
             var strategy = 'sum';
-            var minimumCost = 0;
 
         </script>
         <div id="box"></div>

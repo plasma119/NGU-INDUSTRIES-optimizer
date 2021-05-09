@@ -8,6 +8,63 @@ function shuffleArray(array) {
     }
 }
 
+class GUI_input_number extends GUI_frame {
+    constructor(param) {
+        super(Object.assign({
+            size: [150, 50],
+            imgData:{},
+            fontSize: 16,
+            text: "input:",
+            increment: 1,
+            increment2: 10,
+            start: 0,
+            callback: function(number) {}
+        }, param));
+        this.id = IDC.get("GUI_input_number");
+    }
+
+    ini() {
+        this.drawObject = new DrawObject(Object.assign({
+            type: "rect_1_text",
+            x: this.x,
+            y: this.y,
+            w: this.param.size[0] - 50,
+            h: this.param.size[1],
+            width: 2,
+            color: "#00ff00",
+            fillColor: "#008800",
+            text: "button",
+            size: 16
+        }, this.param.imgData));
+
+        this.number = this.param.start;
+
+        // build buttons
+        let dx = [0, 0, 25, 25];
+        let dy = [0, 25, 0, 25];
+        let t = ['+', '-', '++', '--'];
+        let f = [
+            () => {this.number += this.param.increment; this.param.callback(this.number);},
+            () => {this.number -= this.param.increment; this.param.callback(this.number);},
+            () => {this.number += this.param.increment2; this.param.callback(this.number);},
+            () => {this.number -= this.param.increment2; this.param.callback(this.number);}
+        ];
+        for (let i = 0; i < 4; i++) {
+            let b = new GUI_button({size:[25, 25], imgData:{text: t[i]}, onclick: f[i]});
+            b.move(dx[i] + this.param.size[0] - 50, dy[i]);
+            this.addObject(b);
+        }
+        super.ini();
+    }
+
+    draw(gui) {
+        this.drawObject.text = this.param.text + Math.round(this.number*100)/100;
+        gui.drawObject(this.drawObject);
+        super.draw(gui);
+    }
+
+}
+
 // all coordinates are Grid[y][x]
 
 class GUI_object_NGU_industries extends GUI_frame {
@@ -221,6 +278,8 @@ class NGU_industries {
         this.GUI_frame = null;
         this.shuffleList = [];
         this.optimizing = false;
+        this.maxSpeed = 20;
+        this.maxProduction = 20;
         this.minimumCost = 0;
     }
 
@@ -488,7 +547,6 @@ class NGU_industries_cell {
     }
 
     getSpeed() {
-        // add max speed check later
         return this.speed;
     }
 
@@ -513,8 +571,11 @@ class NGU_industries_cell {
     }
 
     getYield() {
-        if (this.object) return this.object.output * this.getSpeed() * this.production / (this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost);
-        return 0;
+        if (!this.object) return 0;
+        const s = this.speed > this.NGU.maxSpeed? this.NGU.maxSpeed: this.speed;
+        const p = this.production > this.NGU.maxProduction? this.NGU.maxProduction: this.production;
+        const c = this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost;
+        return this.object.output * s * p / c;
     }
 
     getYieldText() {
