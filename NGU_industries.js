@@ -8,6 +8,14 @@ function shuffleArray(array) {
     }
 }
 
+function downloadTextFile(text, name) {
+    const a = document.createElement('a');
+    const type = name.split(".").pop();
+    a.href = URL.createObjectURL( new Blob([text], { type:`text/${type === "txt" ? "plain" : type}` }) );
+    a.download = name;
+    a.click();
+}
+
 class GUI_input_number extends GUI_frame {
     constructor(param) {
         super(Object.assign({
@@ -591,6 +599,38 @@ class NGU_industries_cell {
         return `${Math.round(this.getYieldNoCost()*10)/10}`;
     }
 
+    export() {
+        if (!this.object) return null;
+        if (this.object instanceof NGU_industries_object_Lab) {
+            return {type: 'lab'};
+        } else if (this.object instanceof NGU_industries_object_Beacon) {
+            return {
+                type: 'beacon',
+                beaconType: this.object.type,
+                shape: this.object.shape,
+                direction: this.object.direction
+            };
+        }
+        return null;
+    }
+
+    import(data) {
+        if (!data) {this.delete(); return;}
+        let object;
+        switch (data.type) {
+            case 'lab':
+                object = new NGU_industries_object_Lab();
+            break;
+            case 'beacon':
+                object = new NGU_industries_object_Beacon(data.shape, data.beaconType, data.direction);
+            break;
+            default:
+                console.log(`Invalid building type: ${data.type}`);
+                this.delete();
+                return;
+        }
+        this.put(object);
+    }
 }
 
 class NGU_industries_object {
@@ -604,18 +644,15 @@ class NGU_industries_object {
      * @param {number} x 
      * @param {number} y 
      */
-    init(NGU, x, y) {
-
-    }
+    init(NGU, x, y) {}
 
     /**
      * @param {NGU_industries} NGU 
      * @param {number} x 
      * @param {number} y 
      */
-    delete(NGU, x, y) {
+    delete(NGU, x, y) {}
 
-    }
 }
 
 class NGU_industries_object_Lab extends NGU_industries_object {

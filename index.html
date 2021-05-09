@@ -151,6 +151,41 @@
                 b2.move(0, screen.y - 100);
                 gui_top.addObject(b2);
 
+                let b24 = new GUI_button({size:[130, 50], imgData:{text:"download setup"}, onclick: () => {
+                    const data = {
+                        NGU_industries_optimizer: 'By Rabbit',
+                        timeStamp: Date.now(),
+                        layout:NGU.layout,
+                        tiles:NGU.cellsFlat.map((t) => t.export())
+                    };
+                    downloadTextFile(JSON.stringify(data), 'NGU_industries.json');
+                }});
+                b24.move(b2.x + 100, screen.y - 100);
+                gui_top.addObject(b24);
+
+                let b25 = new GUI_button({size:[130, 50], imgData:{text:"upload setup"}, onclick: () => {
+                    const a = document.createElement('input');
+                    a.type = 'file';
+                    a.onchange = () => {
+                        if (!a.files) return;
+                        if (a.files.length == 0) return;
+                        a.files[0].text().then((text) => {
+                            const data = JSON.parse(text);
+                            if (!data.NGU_industries_optimizer) return;
+                            if (data.layout) NGU.initLayout(data.layout);
+                            if (data.tiles) {
+                                for (let k = 0; k < data.tiles.length; k++) {
+                                    NGU.cellsFlat[k].import(data.tiles[k]);
+                                }
+                                b.drawObject.text = "loaded: " + Math.round(NGU.getYield()*100)/100;
+                            }
+                        });
+                    };
+                    a.click();
+                }});
+                b25.move(b24.x + 130, screen.y - 100);
+                gui_top.addObject(b25);
+
                 let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
                     optimizeTarget.speed = !optimizeTarget.speed;
                     b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
