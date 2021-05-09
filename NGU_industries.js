@@ -281,7 +281,7 @@ class NGU_industries {
         this.w = 0;
         this.h = 0;
         this.optimizeList = [];
-        this.getYield = this.yieldStrategySum;
+        this.changeStrategy('sum');
         /** @type {GUI_frame} */
         this.GUI_frame = null;
         this.shuffleList = [];
@@ -289,6 +289,7 @@ class NGU_industries {
         this.maxSpeed = 20;
         this.maxProduction = 20;
         this.minimumCost = 0;
+        this.currentYield = 0;
     }
 
     /**
@@ -301,6 +302,7 @@ class NGU_industries {
         this.layout = layout;
         this.h = 17;
         this.w = 20;
+        this.currentYield = 0;
         this.cellsFlat = [];
         for (let j = 0; j < this.h; j++) {
             this.cells[j] = [];
@@ -356,6 +358,7 @@ class NGU_industries {
             this.cellsFlat[k].init();
         }
         this.import(arr);
+        this.currentYield = this.getYield();
     }
 
     async optimize(callback) {
@@ -383,7 +386,7 @@ class NGU_industries {
     optimizeLoop(alpha = 0.5) {
         return new Promise((resolve) => {
             setTimeout(() => {
-                let best_yield = this.getYield();
+                let best_yield = this.getYield(true);
                 let arr = this.export();
 
                 for (let i = 0; i < this.w; i++) {
@@ -442,26 +445,59 @@ class NGU_industries {
         this.put(x, y, afterO);
     }
 
-    getYield() {
+    getYield(recalculate) {
         // default to use yieldStrategySum
-        return 0;
+        return this.currentYield;
     }
 
-    yieldStrategySum() {
+    getYieldUpdate(before, after) {
+        return this.currentYield;
+    }
+
+    changeStrategy(name) {
+        switch(name) {
+            case 'sum':
+                this.getYield = this.yieldStrategySum;
+                this.getYieldUpdate = this.yieldStrategySumUpdate;
+            break;
+            case 'max':
+                this.getYield = this.yieldStrategyMax;
+                this.getYieldUpdate = this.yieldStrategyMaxUpdate;
+            break;
+        }
+    }
+
+    yieldStrategySum(recalculate) {
+        if (!recalculate) return this.currentYield;
         let total = 0;
         for (let k = 0; k < this.cellsFlat.length; k++) {
             total += this.cellsFlat[k].getYield();
         }
+        this.currentYield = total;
         return total;
     }
 
-    yieldStrategyMax() {
+    // called per tile change
+    yieldStrategySumUpdate(before, after) {
+        this.currentYield += after - before;
+        return this.currentYield;
+    }
+
+    yieldStrategyMax(recalculate) {
+        if (!recalculate) return this.currentYield;
         let max = 0;
         for (let k = 0; k < this.cellsFlat.length; k++) {
             let y = this.cellsFlat[k].getYield();
             if (y > max) max = y;
         }
+        this.currentYield = max;
         return max;
+    }
+
+    // called per tile change
+    yieldStrategyMaxUpdate(before, after) {
+        if (after > this.currentYield) this.currentYield = after;
+        return this.currentYield;
     }
 
     export() {
@@ -661,6 +697,14 @@ class NGU_industries_object_Lab extends NGU_industries_object {
         this.name = 'crappy_iron_cog'; // too lazy to get texture for lab
         this.output = 1.0;
     }
+
+    init(NGU, x, y) {
+        NGU.getYieldUpdate(0, NGU.cells[y][x].getYield());
+    }
+
+    delete(NGU, x, y) {
+        NGU.getYieldUpdate(NGU.cells[y][x].getYield(), 0);
+    }
 }
 
 class NGU_industries_object_Beacon extends NGU_industries_object {
@@ -790,9 +834,13 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
             sx = x + this.maskX[i];
             sy = y + this.maskY[i];
             if (NGU.isValidPosition(sx, sy)) {
-                NGU.cells[sy][sx].addSpeed(this.speedEffect);
-                NGU.cells[sy][sx].addProduction(this.productionEffect);
-                NGU.cells[sy][sx].addCost(this.costEffect);
+                const cell = NGU.cells[sy][sx];
+                const before = cell.getYield();
+                cell.addSpeed(this.speedEffect);
+                cell.addProduction(this.productionEffect);
+                cell.addCost(this.costEffect);
+                const after = cell.getYield();
+                NGU.getYieldUpdate(before, after);
             }
         }
     }
@@ -808,9 +856,13 @@ class NGU_industries_object_Beacon extends NGU_industries_object {
             sx = x + this.maskX[i];
             sy = y + this.maskY[i];
             if (NGU.isValidPosition(sx, sy)) {
-                NGU.cells[sy][sx].addSpeed(-this.speedEffect);
-                NGU.cells[sy][sx].addProduction(-this.productionEffect);
-                NGU.cells[sy][sx].addCost(-this.costEffect);
+                const cell = NGU.cells[sy][sx];
+                const before = cell.getYield();
+                cell.addSpeed(-this.speedEffect);
+                cell.addProduction(-this.productionEffect);
+                cell.addCost(-this.costEffect);
+                const after = cell.getYield();
+                NGU.getYieldUpdate(before, after);
             }
         }
     }

@@ -105,11 +105,11 @@
                 let b8 = new GUI_button({size:[120, 50], imgData:{text:"strategy: sum"}, onclick: () => {
                     if (strategy == 'sum') {
                         strategy = 'max';
-                        NGU.getYield = NGU.yieldStrategyMax;
+                        NGU.changeStrategy(strategy);
                         b8.drawObject.text = 'strategy: max';
                     } else {
                         strategy = 'sum';
-                        NGU.getYield = NGU.yieldStrategySum;
+                        NGU.changeStrategy(strategy);
                         b8.drawObject.text = 'strategy: sum';
                     }
                 }});
