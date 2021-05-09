@@ -216,7 +216,7 @@ class DataManager {
 	}
 
 	getData(name) {
-		return this.data[name.toLowerCase()];
+		return this.data[name];
 	}
 
 	loadURL(url) {
@@ -247,7 +247,7 @@ class SpriteSheetManager extends DataManager {
             o.frame.h,
 			meta.image
         );
-        this.data[o.filename.toLowerCase()] = img;
+		this.putData(o.filename, img);
     }
 
 	loadObject(o, meta) {
@@ -284,7 +284,7 @@ class ImageManager extends DataManager {
 	}
 
 	getImage(name) {
-		return this.data[name];
+		return this.getData(name);
 	}
 
 	loadImage(name, url, json) {

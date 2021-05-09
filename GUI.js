@@ -168,6 +168,11 @@ class GUI {
                 ctx.strokeRect(x + o.width / 2, y + o.width / 2, o.w - o.width, o.h - o.width);
                 break;
             case "text_line":
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = o.color;
+                ctx.textAlign = "center";
+                ctx.font = o.size + "px Arial";
+                ctx.fillText(o.text, x, y);
                 break;
             case "text_circle":
                 break;
