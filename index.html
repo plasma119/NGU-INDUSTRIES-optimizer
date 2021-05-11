@@ -354,6 +354,14 @@
                 b31.move(screen.x - 100, screen.y - 150);
                 gui_top.addObject(b31);
 
+                let b32 = new GUI_button({size:[120, 50], imgData:{text:"fix black screen", color: "#ff0000", fillColor: "#880000"}, onclick: () => {
+                    frame.webGLmode = !frame.webGLmode;
+                    b32.drawObject.color = !frame.webGLmode? '#00ff00': '#ff0000';
+                    b32.drawObject.fillColor = !frame.webGLmode? '#008800': '#880000';
+                }});
+                b32.move(screen.x - 120, screen.y - 100);
+                gui_top.addObject(b32);
+
                 // load images and start the simulation
                 // don't ask me how this stuff works, it been years since I coded this thing
                 fetchJSON("data.json")

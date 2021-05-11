@@ -114,6 +114,7 @@ class GUI_object_NGU_industries extends GUI_frame {
         this.drawTile = false;
         this.lockTile = false;
         this.drawing = false;
+        this.webGLmode = true;
     }
 
     ini() {
@@ -154,28 +155,28 @@ class GUI_object_NGU_industries extends GUI_frame {
     draw(gui) {
         /** @type {NGU_industries} */
         let NGU = this.param.NGU;
-        if (gui instanceof WGUI2) {
-            if (this.tiles.length == 0) {
-                for (let i = 0; i < this.param.NGU.w; i++) {
-                    for (let j = 0; j < this.param.NGU.h; j++) {
-                        let p = {
-                            type: "image",
-                            x: i * 50,
-                            y: j * 50,
-                            w: 50,
-                            h: 50,
-                            sx: 0,
-                            sy: 0,
-                            sw: 50,
-                            sh: 50,
-                            data: "tile1",
-                            i: i,
-                            j: j
-                        };
-                        this.tiles.push(new DrawObject(p));
-                    }
+        if (this.tiles.length == 0) {
+            for (let i = 0; i < this.param.NGU.w; i++) {
+                for (let j = 0; j < this.param.NGU.h; j++) {
+                    let p = {
+                        type: "image",
+                        x: i * 50,
+                        y: j * 50,
+                        w: 50,
+                        h: 50,
+                        sx: 0,
+                        sy: 0,
+                        sw: 50,
+                        sh: 50,
+                        data: "tile1",
+                        i: i,
+                        j: j
+                    };
+                    this.tiles.push(new DrawObject(p));
                 }
             }
+        }
+        if (gui instanceof WGUI2 && this.webGLmode) {
             for (let k = 0; k < this.tiles.length; k++) {
                 let o = this.tiles[k];
                 o.data = NGU.lockedTiles[o.j][o.i]? "tile3": (NGU.layout[o.j][o.i]? "tile1":"tile2");
@@ -183,6 +184,14 @@ class GUI_object_NGU_industries extends GUI_frame {
             }
             super.draw(gui);
         } else {
+            if (!this.webGLmode) {
+                for (let k = 0; k < this.tiles.length; k++) {
+                    let o = this.tiles[k];
+                    o.data = NGU.lockedTiles[o.j][o.i]? "tile3": (NGU.layout[o.j][o.i]? "tile1":"tile2");
+                    gui.drawObject(o);
+                }
+                super.draw(gui);
+            }
             for (let i = 0; i < NGU.w; i++) {
                 for (let j = 0; j < NGU.h; j++) {
                     let t = NGU.cells[j][i].getYieldText();
