@@ -179,7 +179,16 @@
                 gui_top.addObject(b2);
 
                 let b26 = new GUI_button({imgData:{text:"reset map"}, onclick: () => {
+                    const data = JSON.stringify(NGU.lockedTiles);
+                    const arr = NGU.export();
                     NGU.initLayout(maps[currentMap]);
+                    NGU.lockedTiles = JSON.parse(data);
+                    for (let i = 0; i < NGU.w; i++) {
+                        for (let j = 0; j < NGU.h; j++) {
+                            if (!NGU.lockedTiles[j][i]) arr[i * NGU.h + j] = null;
+                        }
+                    }
+                    NGU.import(arr);
                 }});
                 b26.move(b2.x + 100, screen.y - 100);
                 gui_top.addObject(b26);
