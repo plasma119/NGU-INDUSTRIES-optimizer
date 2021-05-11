@@ -24,7 +24,7 @@
                     ctx.drawImage(gui_bottom.canvas, 0, 0);
                     ctx.drawImage(gui_main.canvas, 0, 0);
                     ctx.drawImage(gui_top.canvas, 0, 0);
-                    downloadCanvas(hiddenCanvas.canvas, 'test.png');
+                    downloadCanvas(hiddenCanvas.canvas, `NGU_industries_${getFormattedDate(new Date(), '_')}.png`);
                 }
 	            window.requestAnimationFrame(main);
             }
