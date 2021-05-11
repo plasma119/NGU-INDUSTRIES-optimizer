@@ -616,9 +616,9 @@ class NGU_industries_cell {
 
     getYield() {
         if (!this.object) return 0;
-        const s = this.speed > this.NGU.maxSpeed? this.NGU.maxSpeed: this.speed;
-        const p = this.production > this.NGU.maxProduction? this.NGU.maxProduction: this.production;
-        const c = this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost;
+        const s = this.speed > this.NGU.maxSpeed? this.NGU.maxSpeed * 1.1: this.speed;
+        const p = this.production > this.NGU.maxProduction? this.NGU.maxProduction * 1.1: this.production;
+        const c = this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost * 0.9;
         return this.object.output * s * p / c;
     }
 

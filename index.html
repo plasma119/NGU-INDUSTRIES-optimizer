@@ -61,13 +61,15 @@
                 NGU.GUI_frame = frame;
                 NGU.initLayout(maps[0]);
 
-                let b = new GUI_button({size:[140, 50], imgData:{text:"optimize"}, onclick: () => {
+                let b = new GUI_button({size:[140, 50], imgData:{text:"optimize", color: "#ff0000", fillColor: "#880000"}, onclick: () => {
                     if (optimizeTarget.running) {
                         // stop optimizing
                         NGU.optimizing = false;
                         return;
                     }
                     optimizeTarget.running = true;
+                    b.drawObject.color = "#00ff00";
+                    b.drawObject.fillColor = "#008800";
                     NGU.optimizeList = [new NGU_industries_object_Lab()];
                     let type = [];
                     if (optimizeTarget.box) type.push('box');
@@ -96,6 +98,8 @@
                         b.drawObject.text = "optimizing: " + Math.round(yield*100)/100;
                     }).then((yield) => {
                         optimizeTarget.running = false;
+                        b.drawObject.color = "#ff0000";
+                        b.drawObject.fillColor = "#880000";
                         b.drawObject.text = "optimized: " + Math.round(yield*100)/100;
                     });
                 }});
