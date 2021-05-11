@@ -211,6 +211,7 @@
                         maxSpeed: Math.round(NGU.maxSpeed*100)/100,
                         maxProduction: Math.round(NGU.maxProduction*100)/100,
                         minimumCost: Math.round(NGU.minimumCost*100)/100,
+                        optimizeTarget: optimizeTarget,
                         layout: NGU.layout,
                         lockedTiles: NGU.lockedTiles,
                         tiles: NGU.cellsFlat.map((t) => t.export())
@@ -231,6 +232,15 @@
                         a.files[0].text().then((text) => {
                             const data = JSON.parse(text);
                             if (!data.NGU_industries_optimizer) return;
+                            if (data.baseMap) currentMap = data.baseMap;
+                            if (data.maxSpeed) b21.input(data.maxSpeed);
+                            if (data.maxProduction) b22.input(data.maxProduction);
+                            if (data.minimumCost) b23.input(data.minimumCost);
+                            if (data.optimizeTarget) {
+                                const r = optimizeTarget.running;
+                                optimizeTarget = data.optimizeTarget;
+                                optimizeTarget.running = r;
+                            }
                             if (data.layout) NGU.initLayout(data.layout);
                             if (data.lockedTiles) NGU.lockedTiles = data.lockedTiles;
                             if (data.tiles) {

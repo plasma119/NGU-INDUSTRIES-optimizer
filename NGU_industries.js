@@ -88,6 +88,11 @@ class GUI_input_number extends GUI_frame {
         super.ini();
     }
 
+    input(n) {
+        this.number = n;
+        this.param.callback(this.number);
+    }
+
     draw(gui) {
         this.drawObject.text = this.param.text + Math.round(this.number*100)/100;
         gui.drawObject(this.drawObject);
