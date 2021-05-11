@@ -8,14 +8,23 @@ function shuffleArray(array) {
     }
 }
 
-function downloadTextFile(text, name) {
+function downloadTextFile(text, filename) {
     const a = document.createElement('a');
-    const type = name.split(".").pop();
+    const type = filename.split(".").pop();
     a.href = URL.createObjectURL( new Blob([text], { type:`text/${type === "txt" ? "plain" : type}` }) );
-    a.download = name;
+    a.download = filename;
     a.click();
 }
 
+function downloadCanvas(canvas, filename){
+    const a = document.createElement('a');
+    canvas.toBlob(function(blob) {
+        let url = URL.createObjectURL(blob);
+        a.setAttribute('href', url);
+        a.setAttribute('download', filename);
+        a.click();
+    });
+}
 /**
  * formatted date MM/DD/yyyy
  * @param {Date} date 
@@ -28,6 +37,7 @@ function downloadTextFile(text, name) {
     let day = date.getDate().toString().padStart(2, '0');
     return month + seperator + day + seperator + year;
 }
+
 
 class GUI_input_number extends GUI_frame {
     constructor(param) {

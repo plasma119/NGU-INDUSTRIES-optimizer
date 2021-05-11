@@ -78,6 +78,8 @@ class HiddenCanvasObject {
 	constructor(w, h) {
 		this.canvas = document.createElement("canvas");
 		this.id = IDC.get("HiddenCanvas");
+		this.w = w;
+		this.h = h;
 		this.canvas.width = w;
 		this.canvas.height = h;
 		this.ctx = this.canvas.getContext('2d');

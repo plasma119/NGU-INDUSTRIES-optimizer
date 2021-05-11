@@ -17,6 +17,15 @@
             function main() {
                 engine.update();
                 engine.render();
+                if (screenShot) {
+                    screenShot = false;
+                    const ctx = hiddenCanvas.ctx;
+                    ctx.clearRect(0, 0, hiddenCanvas.w, hiddenCanvas.h);
+                    ctx.drawImage(gui_bottom.canvas, 0, 0);
+                    ctx.drawImage(gui_main.canvas, 0, 0);
+                    ctx.drawImage(gui_top.canvas, 0, 0);
+                    downloadCanvas(hiddenCanvas.canvas, 'test.png');
+                }
 	            window.requestAnimationFrame(main);
             }
 
@@ -158,6 +167,12 @@
                 b2.move(0, screen.y - 100);
                 gui_top.addObject(b2);
 
+                let b26 = new GUI_button({imgData:{text:"reset map"}, onclick: () => {
+                    NGU.initLayout(maps[currentMap]);
+                }});
+                b26.move(b2.x + 100, screen.y - 100);
+                gui_top.addObject(b26);
+
                 let b24 = new GUI_button({size:[130, 50], imgData:{text:"download setup"}, onclick: () => {
                     const data = {
                         NGU_industries_optimizer: 'By Rabbit',
@@ -174,7 +189,7 @@
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
                     downloadTextFile(JSON.stringify(data), name);
                 }});
-                b24.move(b2.x + 100, screen.y - 100);
+                b24.move(b26.x + 100, screen.y - 100);
                 gui_top.addObject(b24);
 
                 let b25 = new GUI_button({size:[130, 50], imgData:{text:"upload setup"}, onclick: () => {
@@ -200,11 +215,11 @@
                 b25.move(b24.x + 130, screen.y - 100);
                 gui_top.addObject(b25);
 
-                let b26 = new GUI_button({imgData:{text:"reset map"}, onclick: () => {
-                    NGU.initLayout(maps[currentMap]);
+                let b27 = new GUI_button({size:[130, 50], imgData:{text:"Screen Shot"}, onclick: () => {
+                    screenShot = true;
                 }});
-                b26.move(b25.x + 130, screen.y - 100);
-                gui_top.addObject(b26);
+                b27.move(b25.x + 130, screen.y - 100);
+                gui_top.addObject(b27);
 
                 let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
                     optimizeTarget.speed = !optimizeTarget.speed;
@@ -323,6 +338,8 @@
                 running: false
             };
             var strategy = 'sum';
+            var screenShot = false;
+            var hiddenCanvas = new HiddenCanvasObject(screen.x, screen.y);
 
         </script>
         <div id="box"></div>
