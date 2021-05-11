@@ -24,7 +24,18 @@
                     ctx.drawImage(gui_bottom.canvas, 0, 0);
                     ctx.drawImage(gui_main.canvas, 0, 0);
                     ctx.drawImage(gui_top.canvas, 0, 0);
-                    downloadCanvas(hiddenCanvas.canvas, `NGU_industries_${getFormattedDate(new Date(), '_')}.png`);
+                    const data = {
+                        NGU_industries_optimizer: 'By Rabbit',
+                        timeStamp: Date.now(),
+                        date: getFormattedDate(new Date(), '_'),
+                        baseMap: currentMap + 1,
+                        score: Math.round(NGU.getYield()*100),
+                        maxSpeed: Math.round(NGU.maxSpeed*100)/100,
+                        maxProduction: Math.round(NGU.maxProduction*100)/100,
+                        minimumCost: Math.round(NGU.minimumCost*100)/100
+                    };
+                    const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.png`
+                    downloadCanvas(hiddenCanvas.canvas, name);
                 }
 	            window.requestAnimationFrame(main);
             }
@@ -184,6 +195,7 @@
                         maxProduction: Math.round(NGU.maxProduction*100)/100,
                         minimumCost: Math.round(NGU.minimumCost*100)/100,
                         layout: NGU.layout,
+                        lockedTiles: NGU.lockedTiles,
                         tiles: NGU.cellsFlat.map((t) => t.export())
                     };
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
