@@ -185,6 +185,7 @@
                 gui_top.addObject(b26);
 
                 let b24 = new GUI_button({size:[130, 50], imgData:{text:"download setup"}, onclick: () => {
+                    NGU.prepareExport();
                     const data = {
                         NGU_industries_optimizer: 'By Rabbit',
                         timeStamp: Date.now(),
@@ -214,6 +215,7 @@
                             const data = JSON.parse(text);
                             if (!data.NGU_industries_optimizer) return;
                             if (data.layout) NGU.initLayout(data.layout);
+                            if (data.lockedTiles) NGU.lockedTiles = data.lockedTiles;
                             if (data.tiles) {
                                 for (let k = 0; k < data.tiles.length; k++) {
                                     NGU.cellsFlat[k].import(data.tiles[k]);

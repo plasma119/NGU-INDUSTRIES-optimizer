@@ -397,6 +397,16 @@ class NGU_industries {
         this.lockedTiles[y][x] = g;
     }
 
+    // just make the json file smaller
+    prepareExport() {
+        for (let j = 0; j < this.h; j++) {
+            for (let i = 0; i < this.w; i++) {
+                this.layout[j][i] = this.layout[j][i]? 1:0;
+                this.lockedTiles[j][i] = this.lockedTiles[j][i]? 1:0;
+            }
+        }
+    }
+
     /**
      * @param {number} x 
      * @param {number} y 
