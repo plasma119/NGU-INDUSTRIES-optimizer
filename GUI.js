@@ -646,7 +646,7 @@ class GUI_counter extends GUI_object {
     }
 
     draw(gui) {
-        this.drawObject.text = this.param.text + (this.param.interval > 0? this.lastCount: this.count);
+        this.drawObject.text = this.param.text + Math.round((this.param.interval > 0? this.lastCount: this.count)*100)/100;
         gui.drawObject(this.drawObject);
     }
 

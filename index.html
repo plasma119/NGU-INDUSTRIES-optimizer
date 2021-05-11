@@ -56,6 +56,11 @@
                 upsc.move(screen.x - 50, screen.y - 50);
                 upsc.deploy(gui_top);
 
+                // debug use
+                counter = new GUI_counter({ text: "", interval: 100 });
+                counter.move(screen.x - 50, screen.y - 75);
+                counter.deploy(gui_top);
+
                 // NGU.layout.map((arr)=>{return arr.map((b)=>b?1:0).join(',')}).join('],[')
                 maps = [
                     [
@@ -80,6 +85,7 @@
                 gui_bottom.addObject(frame); // I'm lazy
                 NGU.GUI_frame = frame;
                 NGU.initLayout(maps[0]);
+                NGU.counter = counter;
 
                 let b = new GUI_button({size:[140, 50], imgData:{text:"optimize", color: "#ff0000", fillColor: "#880000"}, onclick: () => {
                     if (optimizeTarget.running) {
@@ -209,6 +215,7 @@
                         tiles: NGU.cellsFlat.map((t) => t.export())
                     };
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
+                    data.replace(',', ', ');
                     downloadTextFile(JSON.stringify(data), name);
                 }});
                 b24.move(b26.x + 100, screen.y - 100);
@@ -257,7 +264,7 @@
                     b7.drawObject.color = optimizeTarget.production? '#00ff00': '#ff0000';
                     b7.drawObject.fillColor = optimizeTarget.production? '#008800': '#880000';
                 }});
-                b7.move(100, screen.y - 150);
+                b7.move(b6.x + 100, b6.y);
                 gui_top.addObject(b7);
 
                 let b9 = new GUI_button({imgData:{text:"cost"}, onclick: () => {
@@ -265,7 +272,7 @@
                     b9.drawObject.color = optimizeTarget.cost? '#00ff00': '#ff0000';
                     b9.drawObject.fillColor = optimizeTarget.cost? '#008800': '#880000';
                 }});
-                b9.move(200, screen.y - 150);
+                b9.move(b7.x + 100, b7.y);
                 gui_top.addObject(b9);
 
                 let b3 = new GUI_button({imgData:{text:"box"}, onclick: () => {
@@ -273,7 +280,7 @@
                     b3.drawObject.color = optimizeTarget.box? '#00ff00': '#ff0000';
                     b3.drawObject.fillColor = optimizeTarget.box? '#008800': '#880000';
                 }});
-                b3.move(300, screen.y - 150);
+                b3.move(b9.x + 100, b9.y);
                 gui_top.addObject(b3);
 
                 let b4 = new GUI_button({imgData:{text:"knight"}, onclick: () => {
@@ -281,7 +288,7 @@
                     b4.drawObject.color = optimizeTarget.knight? '#00ff00': '#ff0000';
                     b4.drawObject.fillColor = optimizeTarget.knight? '#008800': '#880000';
                 }});
-                b4.move(400, screen.y - 150);
+                b4.move(b3.x + 100, b3.y);
                 gui_top.addObject(b4);
 
                 let b5 = new GUI_button({imgData:{text:"arrow"}, onclick: () => {
@@ -289,7 +296,7 @@
                     b5.drawObject.color = optimizeTarget.arrow? '#00ff00': '#ff0000';
                     b5.drawObject.fillColor = optimizeTarget.arrow? '#008800': '#880000';
                 }});
-                b5.move(500, screen.y - 150);
+                b5.move(b4.x + 100, b4.y);
                 gui_top.addObject(b5);
 
                 let b10 = new GUI_button({imgData:{text:"wall"}, onclick: () => {
@@ -297,7 +304,7 @@
                     b10.drawObject.color = optimizeTarget.wall? '#00ff00': '#ff0000';
                     b10.drawObject.fillColor = optimizeTarget.wall? '#008800': '#880000';
                 }});
-                b10.move(600, screen.y - 150);
+                b10.move(b5.x + 100, b5.y);
                 gui_top.addObject(b10);
 
                 let b11 = new GUI_button({imgData:{text:"donut"}, onclick: () => {
@@ -305,7 +312,7 @@
                     b11.drawObject.color = optimizeTarget.donut? '#00ff00': '#ff0000';
                     b11.drawObject.fillColor = optimizeTarget.donut? '#008800': '#880000';
                 }});
-                b11.move(700, screen.y - 150);
+                b11.move(b10.x + 100, b10.y);
                 gui_top.addObject(b11);
 
                 let b31 = new GUI_button({imgData:{text:"lock tiles", color: "#ff0000", fillColor: "#880000"}, onclick: () => {
@@ -344,6 +351,7 @@
             var box, engine, gui_main, gui_top;
             var screen = { x: 1000, y: 1000 };
             var upsc;
+            var counter;
 
             var NGU = new NGU_industries();
             var maps, currentMap = 0;

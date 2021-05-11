@@ -354,6 +354,8 @@ class NGU_industries {
         this.maxProduction = 20;
         this.minimumCost = 0;
         this.currentYield = 0;
+        /** @type {GUI_counter} */
+        this.counter;
     }
 
     /**
@@ -486,6 +488,8 @@ class NGU_industries {
                         break;
                     }
                 }
+                this.counter.count -= this.getYield();
+                this.counter.count += this.getYield(true);
 
                 if (p < best_yield) {
                     this.import(arr); // reset
@@ -697,9 +701,9 @@ class NGU_industries_cell {
 
     getYield() {
         if (!this.object) return 0;
-        const s = this.speed > this.NGU.maxSpeed? this.NGU.maxSpeed * 1.1: this.speed;
-        const p = this.production > this.NGU.maxProduction? this.NGU.maxProduction * 1.1: this.production;
-        const c = this.cost > this.NGU.minimumCost? this.cost: this.NGU.minimumCost * 0.9;
+        const s = this.speed > this.NGU.maxSpeed - 0.001? this.NGU.maxSpeed * 1.1: this.speed;
+        const p = this.production > this.NGU.maxProduction - 0.001? this.NGU.maxProduction * 1.1: this.production;
+        const c = this.cost > this.NGU.minimumCost + 0.001? this.cost: this.NGU.minimumCost * 0.9;
         return this.object.output * s * p / c;
     }
 
