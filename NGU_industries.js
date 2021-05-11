@@ -106,6 +106,44 @@ class GUI_object_NGU_industries extends GUI_frame {
         this.id = IDC.get("GUI_NGU");
         this.tiles = [];
         this.displayType = 0;
+        this.drawTile = false;
+        this.lockTile = false;
+        this.drawing = false;
+    }
+
+    ini() {
+        super.ini();
+        /** @type {NGU_industries} */
+        let NGU = this.param.NGU;
+        this.mouse_handler.addHandle('mousedown', 0, 0, 1000, 850, (mz) => {
+            let x = Math.floor(mz[0] / 50);
+            let y = Math.floor(mz[1] / 50);
+            if (NGU.isValidPosition(x, y)) {
+                this.drawing = true;
+                if (this.lockTile) {
+                    this.drawTile = !NGU.lockedTiles[y][x];
+                    NGU.lockTile(x, y, this.drawTile);
+                } else {
+                    this.drawTile = !NGU.layout[y][x];
+                    NGU.setLayout(x, y, this.drawTile);
+                }
+            }
+        });
+        this.mouse_handler.addHandle('mousemove', 0, 0, 1000, 850, (mz) => {
+            if (!this.drawing) return;
+            let x = Math.floor(mz[0] / 50);
+            let y = Math.floor(mz[1] / 50);
+            if (NGU.isValidPosition(x, y)) {
+                if (this.lockTile) {
+                    NGU.lockTile(x, y, this.drawTile);
+                } else {
+                    NGU.setLayout(x, y, this.drawTile);
+                }
+            }
+        });
+        this.mouse_handler.addHandle('mouseup', 0, 0, 1000, 1000, (mz) => {
+            this.drawing = false;
+        });
     }
 
     draw(gui) {
@@ -135,7 +173,7 @@ class GUI_object_NGU_industries extends GUI_frame {
             }
             for (let k = 0; k < this.tiles.length; k++) {
                 let o = this.tiles[k];
-                o.data = NGU.layout[o.j][o.i]? "tile1":"tile2";
+                o.data = NGU.lockedTiles[o.j][o.i]? "tile3": (NGU.layout[o.j][o.i]? "tile1":"tile2");
                 gui.drawObject(o);
             }
             super.draw(gui);
@@ -296,10 +334,13 @@ class GUI_object_NGU_sprite extends GUI_sprite {
 
 class NGU_industries {
     constructor() {
-        /** @type {number[][]} */
+        /** @type {(number|boolean)[][]} */
         this.layout = [];
+        /** @type {(number|boolean)[][]} */
+        this.lockedTiles = [];
         /** @type {NGU_industries_cell[][]} */
         this.cells = [];
+        /** @type {NGU_industries_cell[]} */
         this.cellsFlat = [];
         this.w = 0;
         this.h = 0;
@@ -323,16 +364,19 @@ class NGU_industries {
             this.GUI_frame.clearObjects();
         }
         this.layout = layout;
+        this.lockedTiles = [];
         this.h = 17;
         this.w = 20;
         this.currentYield = 0;
         this.cellsFlat = [];
         for (let j = 0; j < this.h; j++) {
             this.cells[j] = [];
+            this.lockedTiles[j] = [];
             for (let i = 0; i < this.w; i++) {
                 const cell = new NGU_industries_cell(this, i, j)
                 this.cells[j][i] = cell;
                 this.cellsFlat[j * this.w + i] = cell;
+                this.lockedTiles[j][i] = false;
                 if (this.GUI_frame) {
                     const sprite = new GUI_object_NGU_sprite({size:[50, 50]});
                     sprite.moveTo(i*50, j*50);
@@ -347,6 +391,10 @@ class NGU_industries {
     setLayout(x, y, g) {
         this.layout[y][x] = g;
         this.cells[y][x].delete();
+    }
+
+    lockTile(x, y, g) {
+        this.lockedTiles[y][x] = g;
     }
 
     /**
@@ -392,7 +440,7 @@ class NGU_industries {
             let index = 0;
             for (let i = 0; i < this.w; i++) {
                 for (let j = 0; j < this.h; j++) {
-                    if (!this.layout[j][i]) continue;
+                    if (!this.layout[j][i] || this.lockedTiles[j][i]) continue;
                     this.shuffleList[index++] = j * this.w + i;
                 }
             }
@@ -412,10 +460,10 @@ class NGU_industries {
                 let best_yield = this.getYield(true);
                 let arr = this.export();
 
-                for (let i = 0; i < this.w; i++) {
-                    for (let j = 0; j < this.h; j++) {
-                        if (Math.random() < alpha) this.put(i, j, this.optimizeList[Math.floor(this.optimizeList.length * Math.random())]);
-                    }
+                for (let k = 0; k < this.shuffleList.length; k++) {
+                    const i = this.shuffleList[k] % this.w;
+                    const j = Math.floor(this.shuffleList[k] / this.w);
+                    if (Math.random() < alpha) this.put(i, j, this.optimizeList[Math.floor(this.optimizeList.length * Math.random())]);
                 }
 
                 let p_y = this.getYield();
@@ -441,18 +489,18 @@ class NGU_industries {
     }
 
     optimizeOnce() {
-        let list = this.shuffleList.slice();
+        const list = this.shuffleList.slice();
         shuffleArray(list);
         for (let k = 0; k < list.length; k++) {
-            let i = list[k] % this.w;
-            let j = Math.floor(list[k] / this.w);
+            const i = list[k] % this.w;
+            const j = Math.floor(list[k] / this.w);
             if (this.layout[j][i]) this.optimizeCell(i, j);
         }
         return this.getYield();
     }
 
     optimizeCell(x, y) {
-        let t = this.cells[y][x];
+        const t = this.cells[y][x];
         let before = this.getYield();
         let beforeO = t.object;
         let after = 0;
