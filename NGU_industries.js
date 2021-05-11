@@ -488,8 +488,6 @@ class NGU_industries {
                         break;
                     }
                 }
-                this.counter.count -= this.getYield();
-                this.counter.count += this.getYield(true);
 
                 if (p < best_yield) {
                     this.import(arr); // reset
