@@ -16,6 +16,19 @@ function downloadTextFile(text, name) {
     a.click();
 }
 
+/**
+ * formatted date MM/DD/yyyy
+ * @param {Date} date 
+ * @param {string} [seperator]
+ * @returns {string}
+ */
+ function getFormattedDate(date, seperator = '/') {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+    return month + seperator + day + seperator + year;
+}
+
 class GUI_input_number extends GUI_frame {
     constructor(param) {
         super(Object.assign({

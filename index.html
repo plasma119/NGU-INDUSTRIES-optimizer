@@ -162,10 +162,17 @@
                     const data = {
                         NGU_industries_optimizer: 'By Rabbit',
                         timeStamp: Date.now(),
-                        layout:NGU.layout,
-                        tiles:NGU.cellsFlat.map((t) => t.export())
+                        date: getFormattedDate(new Date(), '_'),
+                        baseMap: currentMap + 1,
+                        score: Math.round(NGU.getYield()*100),
+                        maxSpeed: Math.round(NGU.maxSpeed*100)/100,
+                        maxProduction: Math.round(NGU.maxProduction*100)/100,
+                        minimumCost: Math.round(NGU.minimumCost*100)/100,
+                        layout: NGU.layout,
+                        tiles: NGU.cellsFlat.map((t) => t.export())
                     };
-                    downloadTextFile(JSON.stringify(data), 'NGU_industries.json');
+                    const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
+                    downloadTextFile(JSON.stringify(data), name);
                 }});
                 b24.move(b2.x + 100, screen.y - 100);
                 gui_top.addObject(b24);
