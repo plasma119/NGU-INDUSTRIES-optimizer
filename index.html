@@ -200,6 +200,12 @@
                 b25.move(b24.x + 130, screen.y - 100);
                 gui_top.addObject(b25);
 
+                let b26 = new GUI_button({imgData:{text:"reset map"}, onclick: () => {
+                    NGU.initLayout(maps[currentMap]);
+                }});
+                b26.move(b25.x + 130, screen.y - 100);
+                gui_top.addObject(b26);
+
                 let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
                     optimizeTarget.speed = !optimizeTarget.speed;
                     b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
