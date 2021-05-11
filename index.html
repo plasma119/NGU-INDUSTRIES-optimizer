@@ -207,6 +207,7 @@
                         timeStamp: Date.now(),
                         date: getFormattedDate(new Date(), '_'),
                         baseMap: currentMap + 1,
+                        strategy: strategy,
                         score: Math.round(NGU.getYield()*100),
                         maxSpeed: Math.round(NGU.maxSpeed*100)/100,
                         maxProduction: Math.round(NGU.maxProduction*100)/100,
@@ -217,8 +218,7 @@
                         tiles: NGU.cellsFlat.map((t) => t.export())
                     };
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
-                    data.replace(',', ', ');
-                    downloadTextFile(JSON.stringify(data), name);
+                    downloadTextFile(JSON.stringify(data).replace(',', ', '), name);
                 }});
                 b24.move(b26.x + 100, screen.y - 100);
                 gui_top.addObject(b24);
@@ -233,6 +233,10 @@
                             const data = JSON.parse(text);
                             if (!data.NGU_industries_optimizer) return;
                             if (data.baseMap) currentMap = data.baseMap;
+                            if (data.strategy) {
+                                NGU.changeStrategy(data.strategy);
+                                b8.drawObject.text = 'strategy: ' + data.strategy;
+                            }
                             if (data.maxSpeed) b21.input(data.maxSpeed);
                             if (data.maxProduction) b22.input(data.maxProduction);
                             if (data.minimumCost) b23.input(data.minimumCost);
@@ -240,6 +244,22 @@
                                 const r = optimizeTarget.running;
                                 optimizeTarget = data.optimizeTarget;
                                 optimizeTarget.running = r;
+                                b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
+                                b6.drawObject.fillColor = optimizeTarget.speed? '#008800': '#880000';
+                                b7.drawObject.color = optimizeTarget.production? '#00ff00': '#ff0000';
+                                b7.drawObject.fillColor = optimizeTarget.production? '#008800': '#880000';
+                                b9.drawObject.color = optimizeTarget.cost? '#00ff00': '#ff0000';
+                                b9.drawObject.fillColor = optimizeTarget.cost? '#008800': '#880000';
+                                b3.drawObject.color = optimizeTarget.box? '#00ff00': '#ff0000';
+                                b3.drawObject.fillColor = optimizeTarget.box? '#008800': '#880000';
+                                b4.drawObject.color = optimizeTarget.knight? '#00ff00': '#ff0000';
+                                b4.drawObject.fillColor = optimizeTarget.knight? '#008800': '#880000';
+                                b5.drawObject.color = optimizeTarget.arrow? '#00ff00': '#ff0000';
+                                b5.drawObject.fillColor = optimizeTarget.arrow? '#008800': '#880000';
+                                b10.drawObject.color = optimizeTarget.wall? '#00ff00': '#ff0000';
+                                b10.drawObject.fillColor = optimizeTarget.wall? '#008800': '#880000';
+                                b11.drawObject.color = optimizeTarget.donut? '#00ff00': '#ff0000';
+                                b11.drawObject.fillColor = optimizeTarget.donut? '#008800': '#880000';
                             }
                             if (data.layout) NGU.initLayout(data.layout);
                             if (data.lockedTiles) NGU.lockedTiles = data.lockedTiles;
