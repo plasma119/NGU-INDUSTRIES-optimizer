@@ -27,6 +27,28 @@ function downloadCanvas(canvas, filename){
         a.click();
     });
 }
+
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+            console.log('Async: Copying to clipboard was successful!');
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+        });
+        return;
+    }
+    const a = document.createElement("textarea");
+    a.value = text;
+    a.focus();
+    a.select();
+    try {
+        const successful = document.execCommand('copy');
+        console.log('Fallback: Copying text command was ' + (successful ? 'successful' : 'unsuccessful'));
+    } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+    }
+}
+
 /**
  * formatted date MM/DD/yyyy
  * @param {Date} date 

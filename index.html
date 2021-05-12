@@ -40,6 +40,26 @@
 	            window.requestAnimationFrame(main);
             }
 
+            function generateJSONdata() {
+                NGU.prepareExport();
+                const data = {
+                    NGU_industries_optimizer: 'By Rabbit',
+                    timeStamp: Date.now(),
+                    date: getFormattedDate(new Date(), '_'),
+                    baseMap: currentMap + 1,
+                    strategy: strategy,
+                    score: Math.round(NGU.getYield()*100),
+                    maxSpeed: Math.round(NGU.maxSpeed*100)/100,
+                    maxProduction: Math.round(NGU.maxProduction*100)/100,
+                    minimumCost: Math.round(NGU.minimumCost*100)/100,
+                    optimizeTarget: optimizeTarget,
+                    layout: NGU.layout,
+                    lockedTiles: NGU.lockedTiles,
+                    tiles: NGU.cellsFlat.map((t) => t.export())
+                };
+                return data;
+            }
+
             function ini() {
                 box = document.getElementById("box");
                 engine = new RAPI(box, screen.x, screen.y);
@@ -201,22 +221,7 @@
                 gui_top.addObject(b26);
 
                 let b24 = new GUI_button({size:[130, 50], imgData:{text:"download setup"}, onclick: () => {
-                    NGU.prepareExport();
-                    const data = {
-                        NGU_industries_optimizer: 'By Rabbit',
-                        timeStamp: Date.now(),
-                        date: getFormattedDate(new Date(), '_'),
-                        baseMap: currentMap + 1,
-                        strategy: strategy,
-                        score: Math.round(NGU.getYield()*100),
-                        maxSpeed: Math.round(NGU.maxSpeed*100)/100,
-                        maxProduction: Math.round(NGU.maxProduction*100)/100,
-                        minimumCost: Math.round(NGU.minimumCost*100)/100,
-                        optimizeTarget: optimizeTarget,
-                        layout: NGU.layout,
-                        lockedTiles: NGU.lockedTiles,
-                        tiles: NGU.cellsFlat.map((t) => t.export())
-                    };
+                    const data = generateJSONdata();
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
                     downloadTextFile(JSON.stringify(data).replaceAll(',', ', '), name);
                 }});
@@ -273,14 +278,21 @@
                     };
                     a.click();
                 }});
-                b25.move(b24.x + 130, screen.y - 100);
+                b25.move(b24.x + 130, b24.y);
                 gui_top.addObject(b25);
 
                 let b27 = new GUI_button({size:[130, 50], imgData:{text:"Screen Shot"}, onclick: () => {
                     screenShot = true;
                 }});
-                b27.move(b25.x + 130, screen.y - 100);
+                b27.move(b25.x + 130, b25.y);
                 gui_top.addObject(b27);
+
+                let b28 = new GUI_button({size:[150, 50], imgData:{text:"Copy to clipboard"}, onclick: () => {
+                    const data = generateJSONdata();
+                    copyToClipboard(JSON.stringify(data).replaceAll(',', ', '));
+                }});
+                b28.move(b27.x + 130, b27.y);
+                gui_top.addObject(b28);
 
                 let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
                     optimizeTarget.speed = !optimizeTarget.speed;
