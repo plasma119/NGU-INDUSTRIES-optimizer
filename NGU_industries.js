@@ -11,15 +11,17 @@ function shuffleArray(array) {
 function downloadTextFile(text, filename) {
     const a = document.createElement('a');
     const type = filename.split(".").pop();
-    a.href = URL.createObjectURL( new Blob([text], { type:`text/${type === "txt" ? "plain" : type}` }) );
-    a.download = filename;
+    const url = URL.createObjectURL( new Blob([text], { type:`text/${type === "txt" ? "plain" : type}` }) );
+    a.setAttribute('href', url);
+    a.setAttribute('download', filename);
+    a.setAttribute('target', '_blank');
     a.click();
 }
 
 function downloadCanvas(canvas, filename){
     const a = document.createElement('a');
     canvas.toBlob(function(blob) {
-        let url = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);
         a.setAttribute('href', url);
         a.setAttribute('download', filename);
         a.click();
