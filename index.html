@@ -294,6 +294,46 @@
                 b28.move(b27.x + 130, b27.y);
                 gui_top.addObject(b28);
 
+                let b29 = new GUI_button({imgData:{text:"to csv"}, onclick: () => {
+                    const data = generateJSONdata();
+                    let csv = '';
+                    const arr = ['NGU_industries_optimizer', 'date', 'baseMap', 'strategy', 'score', 'maxSpeed', 'maxProduction', 'minimumCost'];
+                    arr.forEach((a) => {
+                        csv += `${a}, ${data[a]}\n`;
+                    });
+                    csv += 'optimize Target:' + '\n';
+                    const arr2 = ['speed', 'production', 'cost', 'box', 'knight', 'arrow', 'wall', 'donut'];
+                    arr2.forEach((a) => {
+                        csv += `${a}, ${data.optimizeTarget[a]}\n`;
+                    });
+                    csv += 'x' + ',';
+                    csv += 'y' + ',';
+                    csv += 'building' + ',';
+                    csv += 'base prod.' + ',';
+                    csv += 'speed' + ',';
+                    csv += 'production' + ',';
+                    csv += 'cost' + ',';
+                    csv += 'score';
+                    csv += '\n';
+                    for (let j = 0; j < NGU.h; j++) {
+                        for (let i = 0; i < NGU.w; i++) {
+                            const d = NGU.cells[j][i].exportcsv();
+                            csv += i + ',';
+                            csv += j + ',';
+                            csv += d.type + ',';
+                            csv += d.base + ',';
+                            csv += d.speed + ',';
+                            csv += d.production + ',';
+                            csv += d.cost + ',';
+                            csv += d.score;
+                            csv += '\n';
+                        }
+                    }
+                    downloadTextFile(csv, `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.csv`);
+                }});
+                b29.move(b28.x + 150, b28.y);
+                gui_top.addObject(b29);
+
                 let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
                     optimizeTarget.speed = !optimizeTarget.speed;
                     b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';

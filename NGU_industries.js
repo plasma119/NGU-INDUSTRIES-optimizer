@@ -771,6 +771,25 @@ class NGU_industries_cell {
         return null;
     }
 
+    exportcsv() {
+        const data = {
+            type: 'null',
+            base: 0,
+            speed: this.speed,
+            production: this.production,
+            cost: this.cost,
+            score: this.getYield()
+        };
+        if (!this.object) return data;
+        if (this.object instanceof NGU_industries_object_Lab) {
+            data.type = 'building';
+            data.base = this.object.output;
+        } else if (this.object instanceof NGU_industries_object_Beacon) {
+            data.type = `beacon-${this.object.shape}-${this.object.type}-${this.object.direction}`
+        }
+        return data;
+    }
+
     import(data) {
         if (!data) {this.delete(); return;}
         let object;
