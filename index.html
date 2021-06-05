@@ -173,28 +173,28 @@
                 b13.move(260, screen.y - 50);
                 gui_top.addObject(b13);
 
+                let b20 = new GUI_input_number({
+                    size:[160, 50], text:'base prod.: ', increment: 0.1, increment2: 1, start: 1,
+                    callback: (n) => {NGU.baseProduction = n;}});
+                b20.move(0, screen.y - 100);
+                gui_top.addObject(b20);
+
                 let b21 = new GUI_input_number({
                     size:[160, 50], text:'max speed: ', increment: 0.1, increment2: 1, start: 20,
-                    callback: (n) => {
-                    NGU.maxSpeed = n;
-                }});
-                b21.move(380, screen.y - 50);
+                    callback: (n) => {NGU.maxSpeed = n;}});
+                b21.move(b20.x + 160, b20.y);
                 gui_top.addObject(b21);
 
                 let b22 = new GUI_input_number({
                     size:[160, 50], text:'max prod.: ', increment: 0.1, increment2: 1, start: 20,
-                    callback: (n) => {
-                    NGU.maxProduction = n;
-                }});
-                b22.move(b21.x + 160, screen.y - 50);
+                    callback: (n) => {NGU.maxProduction = n;}});
+                b22.move(b21.x + 160, b21.y);
                 gui_top.addObject(b22);
 
                 let b23 = new GUI_input_number({
                     size:[160, 50], text:'min. cost: ', increment: 0.01, increment2: 0.1, start: 0,
-                    callback: (n) => {
-                    NGU.minimumCost = n;
-                }});
-                b23.move(b22.x + 160, screen.y - 50);
+                    callback: (n) => {NGU.minimumCost = n;}});
+                b23.move(b22.x + 160, b22.y);
                 gui_top.addObject(b23);
 
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
@@ -202,7 +202,7 @@
                     if (currentMap >= maps.length) currentMap = 0; 
                     NGU.initLayout(maps[currentMap]);
                 }});
-                b2.move(0, screen.y - 100);
+                b2.move(0, screen.y - 150);
                 gui_top.addObject(b2);
 
                 let b26 = new GUI_button({imgData:{text:"reset map"}, onclick: () => {
@@ -217,7 +217,7 @@
                     }
                     NGU.import(arr);
                 }});
-                b26.move(b2.x + 100, screen.y - 100);
+                b26.move(b2.x + 100, b2.y);
                 gui_top.addObject(b26);
 
                 let b24 = new GUI_button({size:[130, 50], imgData:{text:"download setup"}, onclick: () => {
@@ -225,7 +225,7 @@
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.json`
                     downloadTextFile(JSON.stringify(data).replaceAll(',', ', '), name);
                 }});
-                b24.move(b26.x + 100, screen.y - 100);
+                b24.move(b26.x + 100, b26.y);
                 gui_top.addObject(b24);
 
                 let b25 = new GUI_button({size:[130, 50], imgData:{text:"upload setup"}, onclick: () => {
@@ -237,7 +237,7 @@
                         a.files[0].text().then((text) => {
                             const data = JSON.parse(text);
                             if (!data.NGU_industries_optimizer) return;
-                            if (data.baseMap) currentMap = data.baseMap;
+                            if (data.baseMap) currentMap = data.baseMap - 1;
                             if (data.strategy) {
                                 NGU.changeStrategy(data.strategy);
                                 b8.drawObject.text = 'strategy: ' + data.strategy;
@@ -339,7 +339,7 @@
                     b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
                     b6.drawObject.fillColor = optimizeTarget.speed? '#008800': '#880000';
                 }});
-                b6.move(0, screen.y - 150);
+                b6.move(0, screen.y - 200);
                 gui_top.addObject(b6);
 
                 let b7 = new GUI_button({imgData:{text:"production"}, onclick: () => {
@@ -411,7 +411,7 @@
                     b32.drawObject.color = !frame.webGLmode? '#00ff00': '#ff0000';
                     b32.drawObject.fillColor = !frame.webGLmode? '#008800': '#880000';
                 }});
-                b32.move(screen.x - 120, screen.y - 100);
+                b32.move(screen.x - 120, b31.y - 50);
                 gui_top.addObject(b32);
 
                 // load images and start the simulation
@@ -440,7 +440,7 @@
             }
             
             var box, engine, gui_main, gui_top;
-            var screen = { x: 1000, y: 1000 };
+            var screen = { x: 1000, y: 1050 };
             var upsc;
             var counter;
 

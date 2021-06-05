@@ -248,27 +248,6 @@ class GUI_object_NGU_industries extends GUI_frame {
                             p = {
                                 type: "text_line",
                                 x: i * 50 + 25,
-                                y: j * 50 + 15,
-                                color: "#ffffff",
-                                size: 20,
-                                text: NGU.cells[j][i].getYieldNoCostText()
-                            };
-                            gui.drawObject(new DrawObject(p));
-                            p2 = {
-                                type: "text_line",
-                                x: i * 50 + 25,
-                                y: j * 50 + 35,
-                                color: "#ffff88",
-                                size: 20,
-                                text: NGU.cells[j][i].getCostText()
-                            };
-                            gui.drawObject(new DrawObject(p2));
-                        break;
-
-                        case 2:
-                            p = {
-                                type: "text_line",
-                                x: i * 50 + 25,
                                 y: j * 50 + 8,
                                 color: "#ddddff",
                                 size: 15,
@@ -293,6 +272,29 @@ class GUI_object_NGU_industries extends GUI_frame {
                                 text: NGU.cells[j][i].getCostText()
                             };
                             gui.drawObject(new DrawObject(p3));
+                        break;
+
+                        case 100:
+                            // deprecated
+                            // I don't think anyone would use this any more
+                            p = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 15,
+                                color: "#ffffff",
+                                size: 20,
+                                text: NGU.cells[j][i].getYieldNoCostText()
+                            };
+                            gui.drawObject(new DrawObject(p));
+                            p2 = {
+                                type: "text_line",
+                                x: i * 50 + 25,
+                                y: j * 50 + 35,
+                                color: "#ffff88",
+                                size: 20,
+                                text: NGU.cells[j][i].getCostText()
+                            };
+                            gui.drawObject(new DrawObject(p2));
                         break;
                     }
                 }
@@ -388,6 +390,7 @@ class NGU_industries {
         this.GUI_frame = null;
         this.shuffleList = [];
         this.optimizing = false;
+        this.baseProduction = 1;
         this.maxSpeed = 20;
         this.maxProduction = 20;
         this.minimumCost = 0;
@@ -720,7 +723,7 @@ class NGU_industries_cell {
     }
 
     getProduction() {
-        return this.production;
+        return this.production * this.NGU.baseProduction;
     }
 
     getProductionText() {
@@ -738,9 +741,10 @@ class NGU_industries_cell {
     getYield() {
         if (!this.object) return 0;
         const s = this.speed > this.NGU.maxSpeed - 0.001? this.NGU.maxSpeed: this.speed;
-        const p = this.production > this.NGU.maxProduction - 0.001? this.NGU.maxProduction * 1.1: this.production;
+        const p = this.getProduction();
+        const p2 = p > this.NGU.maxProduction - 0.001? this.NGU.maxProduction * 1.1: p;
         const c = this.cost > this.NGU.minimumCost + 0.001? this.cost: this.NGU.minimumCost * 0.9;
-        return this.object.output * s * p / c;
+        return this.object.output * s * p2 / (c * this.NGU.baseProduction);
     }
 
     getYieldText() {
@@ -748,11 +752,13 @@ class NGU_industries_cell {
     }
 
     getYieldNoCost() {
+        // deprecated
         if (this.object) return this.object.output * this.getSpeed() * this.production;
         return 0;
     }
 
     getYieldNoCostText() {
+        // deprecated
         return `${Math.round(this.getYieldNoCost()*10)/10}`;
     }
 
