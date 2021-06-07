@@ -319,7 +319,7 @@ class ImageManager extends DataManager {
 		return new Promise((resolve) => {
 			const img = new Image();
 			this.data[name] = img;
-			img.onload = () => {
+			img.onload = async() => {
 				let t = 0;
 				while ((!img.complete || img.naturalHeight == 0) && t++ < 10) {
 					// caching issue, image is still not loaded
