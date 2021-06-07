@@ -320,6 +320,11 @@ class ImageManager extends DataManager {
 			const img = new Image();
 			this.data[name] = img;
 			img.onload = () => {
+				let t = 0;
+				while ((!img.complete || img.naturalHeight == 0) && t++ < 10) {
+					// caching issue, image is still not loaded
+					await wait(100);
+				}
 				resolve({
 					name: name,
 					img: img,
