@@ -44,6 +44,7 @@
                     maxProduction: Math.round(NGU.maxProduction*100)/100,
                     minimumCost: Math.round(NGU.minimumCost*100)/100,
                     roundingMode: NGU.rounding,
+                    roundingCost: NGU.roundingCost,
                     optimizeTarget: optimizeTarget,
                     layout: NGU.layout,
                     lockedTiles: NGU.lockedTiles,
@@ -200,6 +201,12 @@
                 b30.move(b23.x + 160, b23.y);
                 gui_top.addObject(b30);
 
+                let b33 = new GUI_button_onoff({imgData:{text:"round cost"}, start: false, callback: (state) => {
+                    NGU.roundingCost = state;
+                }});
+                b33.move(b30.x + 120, b30.y);
+                gui_top.addObject(b33);
+
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
                     currentMap++;
                     if (currentMap >= maps.length) currentMap = 0; 
@@ -251,6 +258,7 @@
                             if (data.maxProduction) b22.input(data.maxProduction);
                             if (data.minimumCost) b23.input(data.minimumCost);
                             if (data.roundingMode) b30.set(data.roundingMode);
+                            if (data.roundingCost) b33.set(data.roundingCost);
                             if (data.optimizeTarget) {
                                 const r = optimizeTarget.running;
                                 optimizeTarget = data.optimizeTarget;
