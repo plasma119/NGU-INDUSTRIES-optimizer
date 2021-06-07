@@ -43,6 +43,7 @@
                     maxSpeed: Math.round(NGU.maxSpeed*100)/100,
                     maxProduction: Math.round(NGU.maxProduction*100)/100,
                     minimumCost: Math.round(NGU.minimumCost*100)/100,
+                    roundingMode: NGU.rounding,
                     optimizeTarget: optimizeTarget,
                     layout: NGU.layout,
                     lockedTiles: NGU.lockedTiles,
@@ -249,6 +250,7 @@
                             if (data.maxSpeed) b21.input(data.maxSpeed);
                             if (data.maxProduction) b22.input(data.maxProduction);
                             if (data.minimumCost) b23.input(data.minimumCost);
+                            if (data.roundingMode) b30.set(data.roundingMode);
                             if (data.optimizeTarget) {
                                 const r = optimizeTarget.running;
                                 optimizeTarget = data.optimizeTarget;

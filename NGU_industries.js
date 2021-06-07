@@ -93,10 +93,12 @@ class GUI_button_onoff extends GUI_button {
 
     set(state) {
         this.state = state;
+        this.param.callback(this.state);
     }
 
     toggle() {
         this.state = !this.state;
+        this.param.callback(this.state);
     }
 }
 
