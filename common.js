@@ -299,10 +299,8 @@ class ImageManager extends DataManager {
 			return new Promise(resolve => {
 				this.spriteSheetManager.loadURL(json)
 				.then(() => {
-					this.loadImage(url, url);
-				})
-				.then(() => {
-					resolve();
+					this.loadImage(url, url)
+					.then(resolve);
 				});
 			});
 		}
@@ -319,12 +317,7 @@ class ImageManager extends DataManager {
 		return new Promise((resolve) => {
 			const img = new Image();
 			this.data[name] = img;
-			img.onload = async() => {
-				let t = 0;
-				while ((!img.complete || img.naturalHeight == 0) && t++ < 10) {
-					// caching issue, image is still not loaded
-					await wait(100);
-				}
+			img.onload = () => {
 				resolve({
 					name: name,
 					img: img,
