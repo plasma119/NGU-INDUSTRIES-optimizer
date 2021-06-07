@@ -17,7 +17,7 @@ Maximum speed/prod. is the maximum effective value(target) of effect on a single
 
 Minimum cost is the minimum effective value for cost beacon on a single tile, works similar to maximum speed/prod.
 
-Saved filename is formatted as: NGU_industries_(date)_(map)_(score)_(max speed)_(max prod.)_(min cost).json
+Saved filename is formatted as: NGU_industries\_(date)\_(map)\_(score)\_(max speed)\_(max prod.)\_(min cost).json
 
 All images used are taken from the game.
 Rendered using my own GUI library with [REGL](https://github.com/regl-project/regl) for webgl renderer
