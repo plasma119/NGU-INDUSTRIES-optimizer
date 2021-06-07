@@ -63,6 +63,43 @@ function copyToClipboard(text) {
 }
 
 
+class GUI_button_onoff extends GUI_button {
+    constructor(param) {
+        super(Object.assign({
+            start: true,
+            color1: ['#00ff00', '#008800'],
+            color2: ['#ff0000', '#880000'],
+            callback: function(boolean) {}
+        }, param));
+        this.id = IDC.get("GUI_button_onoff");
+    }
+
+    ini() {
+        this.state = this.param.start;
+        this.param.onclick = () => {this.state = !this.state; this.param.callback(this.state);}
+        super.ini();
+    }
+
+    draw(gui) {
+        if (this.state) {
+            this.drawObject.color = this.param.color1[0];
+            this.drawObject.fillColor = this.param.color1[1];
+        } else {
+            this.drawObject.color = this.param.color2[0];
+            this.drawObject.fillColor = this.param.color2[1];
+        }
+        super.draw(gui);
+    }
+
+    set(state) {
+        this.state = state;
+    }
+
+    toggle() {
+        this.state = !this.state;
+    }
+}
+
 class GUI_input_number extends GUI_frame {
     constructor(param) {
         super(Object.assign({
@@ -397,6 +434,7 @@ class NGU_industries {
         this.currentYield = 0;
         /** @type {GUI_counter} */
         this.counter;
+        this.rounding = false;
     }
 
     /**
@@ -741,7 +779,7 @@ class NGU_industries_cell {
     getYield() {
         if (!this.object) return 0;
         const s = this.speed > this.NGU.maxSpeed - 0.001? this.NGU.maxSpeed: this.speed;
-        const p = this.getProduction();
+        const p = this.NGU.rounding? Math.round(this.getProduction()): this.getProduction();
         const p2 = p > this.NGU.maxProduction - 0.001? this.NGU.maxProduction * 1.1: p;
         const c = this.cost > this.NGU.minimumCost + 0.001? this.cost: this.NGU.minimumCost * 0.9;
         return this.object.output * s * p2 / (c * this.NGU.baseProduction);

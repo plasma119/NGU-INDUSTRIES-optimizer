@@ -24,16 +24,7 @@
                     ctx.drawImage(gui_bottom.canvas, 0, 0);
                     ctx.drawImage(gui_main.canvas, 0, 0);
                     ctx.drawImage(gui_top.canvas, 0, 0);
-                    const data = {
-                        NGU_industries_optimizer: 'By Rabbit',
-                        timeStamp: Date.now(),
-                        date: getFormattedDate(new Date(), '_'),
-                        baseMap: currentMap + 1,
-                        score: Math.round(NGU.getYield()*100),
-                        maxSpeed: Math.round(NGU.maxSpeed*100)/100,
-                        maxProduction: Math.round(NGU.maxProduction*100)/100,
-                        minimumCost: Math.round(NGU.minimumCost*100)/100
-                    };
+                    const data = generateJSONdata();
                     const name = `NGU_industries_${data.date}_map${data.baseMap}_${data.score}_${data.maxSpeed}_${data.maxProduction}_${data.minimumCost}.png`
                     downloadCanvas(hiddenCanvas.canvas, name);
                 }
@@ -67,7 +58,7 @@
                 gui_main = engine.addLayer();
                 gui_top = engine.addLayer();
 
-                var fpsc = new GUI_counter({ text: "FPS:", interval: 1000 });
+                fpsc = new GUI_counter({ text: "FPS:", interval: 1000 });
                 fpsc.move(screen.x - 50, screen.y - 25);
                 gui_main.FPS_counter = fpsc;
                 fpsc.deploy(gui_top);
@@ -75,6 +66,10 @@
                 upsc = new GUI_counter({ text: "UPS:", interval: 1000 });
                 upsc.move(screen.x - 50, screen.y - 50);
                 upsc.deploy(gui_top);
+
+                let iterationCounter = new GUI_counter({size:[75, 25], text: "iter:"});
+                iterationCounter.move(screen.x - 75, screen.y - 75);
+                iterationCounter.deploy(gui_top);
 
                 // debug use
                 counter = new GUI_counter({ text: "", interval: 100 });
@@ -142,6 +137,7 @@
                     });
                     NGU.optimize((yield)=>{
                         upsc.count++;
+                        iterationCounter.count++;
                         b.drawObject.text = "optimizing: " + Math.round(yield*100)/100;
                     }).then((yield) => {
                         optimizeTarget.running = false;
@@ -197,10 +193,17 @@
                 b23.move(b22.x + 160, b22.y);
                 gui_top.addObject(b23);
 
+                let b30 = new GUI_button_onoff({size: [120, 50], imgData:{text:"rounding mode"}, start: false, callback: (state) => {
+                    NGU.rounding = state;
+                }});
+                b30.move(b23.x + 160, b23.y);
+                gui_top.addObject(b30);
+
                 let b2 = new GUI_button({imgData:{text:"next map"}, onclick: () => {
                     currentMap++;
                     if (currentMap >= maps.length) currentMap = 0; 
                     NGU.initLayout(maps[currentMap]);
+                    iterationCounter.count = 0;
                 }});
                 b2.move(0, screen.y - 150);
                 gui_top.addObject(b2);
@@ -216,6 +219,7 @@
                         }
                     }
                     NGU.import(arr);
+                    iterationCounter.count = 0;
                 }});
                 b26.move(b2.x + 100, b2.y);
                 gui_top.addObject(b26);
@@ -249,22 +253,9 @@
                                 const r = optimizeTarget.running;
                                 optimizeTarget = data.optimizeTarget;
                                 optimizeTarget.running = r;
-                                b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
-                                b6.drawObject.fillColor = optimizeTarget.speed? '#008800': '#880000';
-                                b7.drawObject.color = optimizeTarget.production? '#00ff00': '#ff0000';
-                                b7.drawObject.fillColor = optimizeTarget.production? '#008800': '#880000';
-                                b9.drawObject.color = optimizeTarget.cost? '#00ff00': '#ff0000';
-                                b9.drawObject.fillColor = optimizeTarget.cost? '#008800': '#880000';
-                                b3.drawObject.color = optimizeTarget.box? '#00ff00': '#ff0000';
-                                b3.drawObject.fillColor = optimizeTarget.box? '#008800': '#880000';
-                                b4.drawObject.color = optimizeTarget.knight? '#00ff00': '#ff0000';
-                                b4.drawObject.fillColor = optimizeTarget.knight? '#008800': '#880000';
-                                b5.drawObject.color = optimizeTarget.arrow? '#00ff00': '#ff0000';
-                                b5.drawObject.fillColor = optimizeTarget.arrow? '#008800': '#880000';
-                                b10.drawObject.color = optimizeTarget.wall? '#00ff00': '#ff0000';
-                                b10.drawObject.fillColor = optimizeTarget.wall? '#008800': '#880000';
-                                b11.drawObject.color = optimizeTarget.donut? '#00ff00': '#ff0000';
-                                b11.drawObject.fillColor = optimizeTarget.donut? '#008800': '#880000';
+                                beaconButtonsName.forEach((n) => {
+                                    beaconButtons[n].set(optimizeTarget[n])
+                                });
                             }
                             if (data.layout) NGU.initLayout(data.layout);
                             if (data.lockedTiles) NGU.lockedTiles = data.lockedTiles;
@@ -274,6 +265,7 @@
                                 }
                                 b.drawObject.text = "loaded: " + Math.round(NGU.getYield()*100)/100;
                             }
+                            iterationCounter.count = 0;
                         });
                     };
                     a.click();
@@ -334,82 +326,24 @@
                 b29.move(b28.x + 150, b28.y);
                 gui_top.addObject(b29);
 
-                let b6 = new GUI_button({imgData:{text:"speed"}, onclick: () => {
-                    optimizeTarget.speed = !optimizeTarget.speed;
-                    b6.drawObject.color = optimizeTarget.speed? '#00ff00': '#ff0000';
-                    b6.drawObject.fillColor = optimizeTarget.speed? '#008800': '#880000';
-                }});
-                b6.move(0, screen.y - 200);
-                gui_top.addObject(b6);
+                // beacon buttons
+                beaconButtonsName.forEach((n, i) => {
+                    const b = new GUI_button_onoff({imgData:{text: n}, callback: (state) => {
+                        optimizeTarget[n] = state;
+                    }});
+                    b.move(i * 100, screen.y - 200);
+                    gui_top.addObject(b);
+                    beaconButtons[n] = b;
+                });
 
-                let b7 = new GUI_button({imgData:{text:"production"}, onclick: () => {
-                    optimizeTarget.production = !optimizeTarget.production;
-                    b7.drawObject.color = optimizeTarget.production? '#00ff00': '#ff0000';
-                    b7.drawObject.fillColor = optimizeTarget.production? '#008800': '#880000';
-                }});
-                b7.move(b6.x + 100, b6.y);
-                gui_top.addObject(b7);
-
-                let b9 = new GUI_button({imgData:{text:"cost"}, onclick: () => {
-                    optimizeTarget.cost = !optimizeTarget.cost;
-                    b9.drawObject.color = optimizeTarget.cost? '#00ff00': '#ff0000';
-                    b9.drawObject.fillColor = optimizeTarget.cost? '#008800': '#880000';
-                }});
-                b9.move(b7.x + 100, b7.y);
-                gui_top.addObject(b9);
-
-                let b3 = new GUI_button({imgData:{text:"box"}, onclick: () => {
-                    optimizeTarget.box = !optimizeTarget.box;
-                    b3.drawObject.color = optimizeTarget.box? '#00ff00': '#ff0000';
-                    b3.drawObject.fillColor = optimizeTarget.box? '#008800': '#880000';
-                }});
-                b3.move(b9.x + 100, b9.y);
-                gui_top.addObject(b3);
-
-                let b4 = new GUI_button({imgData:{text:"knight"}, onclick: () => {
-                    optimizeTarget.knight = !optimizeTarget.knight;
-                    b4.drawObject.color = optimizeTarget.knight? '#00ff00': '#ff0000';
-                    b4.drawObject.fillColor = optimizeTarget.knight? '#008800': '#880000';
-                }});
-                b4.move(b3.x + 100, b3.y);
-                gui_top.addObject(b4);
-
-                let b5 = new GUI_button({imgData:{text:"arrow"}, onclick: () => {
-                    optimizeTarget.arrow = !optimizeTarget.arrow;
-                    b5.drawObject.color = optimizeTarget.arrow? '#00ff00': '#ff0000';
-                    b5.drawObject.fillColor = optimizeTarget.arrow? '#008800': '#880000';
-                }});
-                b5.move(b4.x + 100, b4.y);
-                gui_top.addObject(b5);
-
-                let b10 = new GUI_button({imgData:{text:"wall"}, onclick: () => {
-                    optimizeTarget.wall = !optimizeTarget.wall;
-                    b10.drawObject.color = optimizeTarget.wall? '#00ff00': '#ff0000';
-                    b10.drawObject.fillColor = optimizeTarget.wall? '#008800': '#880000';
-                }});
-                b10.move(b5.x + 100, b5.y);
-                gui_top.addObject(b10);
-
-                let b11 = new GUI_button({imgData:{text:"donut"}, onclick: () => {
-                    optimizeTarget.donut = !optimizeTarget.donut;
-                    b11.drawObject.color = optimizeTarget.donut? '#00ff00': '#ff0000';
-                    b11.drawObject.fillColor = optimizeTarget.donut? '#008800': '#880000';
-                }});
-                b11.move(b10.x + 100, b10.y);
-                gui_top.addObject(b11);
-
-                let b31 = new GUI_button({imgData:{text:"lock tiles", color: "#ff0000", fillColor: "#880000"}, onclick: () => {
-                    frame.lockTile = !frame.lockTile;
-                    b31.drawObject.color = frame.lockTile? '#00ff00': '#ff0000';
-                    b31.drawObject.fillColor = frame.lockTile? '#008800': '#880000';
+                let b31 = new GUI_button_onoff({imgData:{text:"lock tiles"}, start: false, callback: (state) => {
+                    frame.lockTile = state;
                 }});
                 b31.move(screen.x - 100, screen.y - 150);
                 gui_top.addObject(b31);
 
-                let b32 = new GUI_button({size:[120, 50], imgData:{text:"fix black screen", color: "#ff0000", fillColor: "#880000"}, onclick: () => {
-                    frame.webGLmode = !frame.webGLmode;
-                    b32.drawObject.color = !frame.webGLmode? '#00ff00': '#ff0000';
-                    b32.drawObject.fillColor = !frame.webGLmode? '#008800': '#880000';
+                let b32 = new GUI_button_onoff({size:[120, 50], imgData:{text:"fix black screen"}, start: false, callback: (state) => {
+                    frame.webGLmode = state;
                 }});
                 b32.move(screen.x - 120, b31.y - 50);
                 gui_top.addObject(b32);
@@ -441,7 +375,7 @@
             
             var box, engine, gui_main, gui_top;
             var screen = { x: 1000, y: 1050 };
-            var upsc;
+            var fpsc, upsc;
             var counter;
 
             var NGU = new NGU_industries();
@@ -460,6 +394,8 @@
             var strategy = 'sum';
             var screenShot = false;
             var hiddenCanvas = new HiddenCanvasObject(screen.x, screen.y);
+            var beaconButtonsName = ["speed","production","cost","box","knight","arrow","wall","donut"];
+            var beaconButtons = [];
 
         </script>
         <div id="box"></div>
