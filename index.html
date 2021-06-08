@@ -100,9 +100,9 @@
                 iterationCounter.move(screen.x - 75, screen.y - 75);
                 iterationCounter.deploy(gui_top);
 
-                // debug use
-                counter = new GUI_counter({ text: "", interval: 100 });
-                counter.move(screen.x - 50, screen.y - 75);
+                //debug use
+                counter = new GUI_counter({ text: "", interval: 0 });
+                counter.move(screen.x - 50, screen.y - 100);
                 counter.deploy(gui_top);
                 counter.hide();
 
@@ -178,6 +178,7 @@
 
                 let b14 = new GUI_button({size:[150, 50], imgData:{text:"polish cost rounding"}, onclick: () => {
                     if (NGU.running) return;
+                    NGU.reload();
                     buildOptimizeList();
                     NGU.optimizeList.shift();
                     const roundingCost = NGU.roundingCost;

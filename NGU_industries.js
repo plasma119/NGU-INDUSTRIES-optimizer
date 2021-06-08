@@ -543,7 +543,7 @@ class NGU_industries {
                 this.reload();
             }
             if (!this.optimizing) return this.getYield();
-            callback(await this.optimizeLoop(0.5 / (1 + Math.sqrt(i % 200))));
+            callback(await this.optimizeLoop(0.5 * (50 - i % 50) / 50));
         }
         this.optimizing = false;
         return this.getYield();
