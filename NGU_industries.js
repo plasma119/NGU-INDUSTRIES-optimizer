@@ -781,12 +781,14 @@ class NGU_industries_cell {
 
     getYield() {
         if (!this.object) return 0;
-        const s = this.speed > this.NGU.maxSpeed - 0.001? this.NGU.maxSpeed: this.speed;
-        const p = this.NGU.rounding? Math.floor(this.getProduction()): this.getProduction();
-        const p2 = p > this.NGU.maxProduction - 0.001? this.NGU.maxProduction * 1.1: p;
-        const c = this.NGU.roundingCost? Math.ceil(this.cost * p) * this.cost: this.cost;
-        const c2 = c > this.NGU.minimumCost + 0.001? c: this.NGU.minimumCost * 0.9;
-        return this.object.output * s * p2 / (c2 * this.NGU.baseProduction);
+        if (this.object.output == 0) return 0;
+        const NGU = this.NGU;
+        const s = this.speed > NGU.maxSpeed - 0.001? NGU.maxSpeed: this.speed;
+        const p = NGU.rounding? Math.floor(this.getProduction() + 0.001): this.getProduction();
+        const p2 = p > NGU.maxProduction - 0.001? NGU.maxProduction * 1.1: p;
+        const c = this.cost > NGU.minimumCost + 0.001? this.cost: (NGU.roundingCost? NGU.minimumCost: NGU.minimumCost * 0.9);
+        const c2 = NGU.roundingCost? c * Math.ceil(c * p - 0.001) / p: c;
+        return this.object.output * s * p2 / (c2 * NGU.baseProduction);
     }
 
     getYieldText() {
