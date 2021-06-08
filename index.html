@@ -53,6 +53,33 @@
                 return data;
             }
 
+            function addBeacon(type, directions = ['w']) {
+                directions.forEach((d) => {
+                    if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'speed', d));
+                    if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'production', d));
+                    if (optimizeTarget.cost) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'cost', d));
+                });
+            }
+
+            function buildOptimizeList() {
+                NGU.optimizeList = [new NGU_industries_object_Lab()];
+                let type = [];
+                if (optimizeTarget.box) type.push('box');
+                if (optimizeTarget.knight) type.push('knight');
+                if (optimizeTarget.arrow) type.push('arrow');
+                if (optimizeTarget.wall) type.push('wall');
+                if (optimizeTarget.donut) type.push('donut');
+                type.forEach(t => {
+                    if (t == 'arrow') {
+                        addBeacon(t, ['w', 'a', 's', 'd']);
+                    } else if (t == 'wall') {
+                        addBeacon(t, ['w', 'a']);
+                    } else {
+                        addBeacon(t);
+                    }
+                });
+            }
+
             function ini() {
                 box = document.getElementById("box");
                 engine = new RAPI(box, screen.x, screen.y);
@@ -114,29 +141,7 @@
                     optimizeTarget.running = true;
                     b.drawObject.color = "#00ff00";
                     b.drawObject.fillColor = "#008800";
-                    NGU.optimizeList = [new NGU_industries_object_Lab()];
-                    let type = [];
-                    if (optimizeTarget.box) type.push('box');
-                    if (optimizeTarget.knight) type.push('knight');
-                    if (optimizeTarget.arrow) type.push('arrow');
-                    if (optimizeTarget.wall) type.push('wall');
-                    if (optimizeTarget.donut) type.push('donut');
-                    function addBeacon(type, directions = ['w']) {
-                        directions.forEach((d) => {
-                            if (optimizeTarget.speed) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'speed', d));
-                            if (optimizeTarget.production) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'production', d));
-                            if (optimizeTarget.cost) NGU.optimizeList.push(new NGU_industries_object_Beacon(type, 'cost', d));
-                        });
-                    }
-                    type.forEach(t => {
-                        if (t == 'arrow') {
-                            addBeacon(t, ['w', 'a', 's', 'd']);
-                        } else if (t == 'wall') {
-                            addBeacon(t, ['w', 'a']);
-                        } else {
-                            addBeacon(t);
-                        }
-                    });
+                    buildOptimizeList();
                     NGU.optimize((yield)=>{
                         upsc.count++;
                         iterationCounter.count++;
@@ -170,6 +175,33 @@
                 }});
                 b13.move(260, screen.y - 50);
                 gui_top.addObject(b13);
+
+                let b14 = new GUI_button({size:[150, 50], imgData:{text:"polish cost rounding"}, onclick: () => {
+                    if (NGU.running) return;
+                    buildOptimizeList();
+                    NGU.optimizeList.shift();
+                    const roundingCost = NGU.roundingCost;
+                    NGU.roundingCost = true;
+                    NGU.roundingCostBonus = false;
+                    console.log(`Before polish: ${Math.round(NGU.getYield(true)*100)/100}`);
+                    const lockedTiles = JSON.stringify(NGU.lockedTiles);
+                    for (let i = 0; i < NGU.w; i++) {
+                        for (let j = 0; j < NGU.h; j++) {
+                            if (NGU.cells[j][i].object instanceof NGU_industries_object_Lab) NGU.lockTile(i, j, true);
+                        }
+                    }
+                    NGU.optimizeLoop(0).then((yield) => {
+                        console.log(`After polish: ${Math.round(NGU.getYield(true)*100)/100}`);
+                        NGU.lockedTiles = JSON.parse(lockedTiles);
+                        NGU.roundingCost = roundingCost;
+                        NGU.roundingCostBonus = true;
+                        b.drawObject.color = "#ff0000";
+                        b.drawObject.fillColor = "#880000";
+                        b.drawObject.text = "optimized: " + Math.round(NGU.getYield(true)*100)/100;
+                    });
+                }});
+                b14.move(b13.x + 120, b13.y);
+                gui_top.addObject(b14);
 
                 let b20 = new GUI_input_number({
                     size:[160, 50], text:'base prod.: ', increment: 0.1, increment2: 1, start: 1,

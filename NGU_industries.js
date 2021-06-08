@@ -438,6 +438,7 @@ class NGU_industries {
         this.counter;
         this.rounding = false;
         this.roundingCost = false;
+        this.roundingCostBonus = true;
     }
 
     /**
@@ -787,8 +788,8 @@ class NGU_industries_cell {
         const p = NGU.rounding? Math.floor(this.getProduction() + 0.001): this.getProduction();
         const p2 = p > NGU.maxProduction - 0.001? NGU.maxProduction * 1.1: p;
         const c = this.cost > NGU.minimumCost + 0.001? this.cost: (NGU.roundingCost? NGU.minimumCost: NGU.minimumCost * 0.9);
-        const c2 = NGU.roundingCost? c * Math.ceil(c * p - 0.001) / p: c;
-        return this.object.output * s * p2 / (c2 * NGU.baseProduction);
+        const c2 = NGU.roundingCost? Math.ceil(c * p - 0.001) / p: c;
+        return this.object.output * s * p2 / ((NGU.roundingCost && NGU.roundingCostBonus? c: 1) * c2 * NGU.baseProduction);
     }
 
     getYieldText() {
