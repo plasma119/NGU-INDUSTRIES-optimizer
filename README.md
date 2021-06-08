@@ -19,5 +19,7 @@ Minimum cost is the minimum effective value for cost beacon on a single tile, wo
 
 Saved filename is formatted as: NGU_industries\_(date)\_(map)\_(score)\_(max speed)\_(max prod.)\_(min cost).json
 
+Polish cost rounding button: this should be used after optimizing using rounding mode, it would consider rounding mode + rounding cost (using a more aggressive version that only works with good enough setup) and place tons more speed beacon, i.e. a tile of 3 speed 3 prod 0.2 cost would be polished to like 4 speed 3 prod 0.33 cost
+
 All images used are taken from the game.
 Rendered using my own GUI library with [REGL](https://github.com/regl-project/regl) for webgl renderer
